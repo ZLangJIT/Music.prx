@@ -1,0 +1,46 @@
+#this is just the default config
+#you can have as many button presses as you want
+#just have button|button for each one
+#valid buttons are:
+#(on dpad):UP DOWN LEFT RIGHT
+#HOME SELECT START
+#LTRIGGER RTRIGGER
+#TRIANGLE CROSS CIRCLE SQUARE
+#SCREEN VOLUP VOLDOWN
+#DISABLE as a button will disable that command
+DEBUG = 1 #this is really for me, set to 1 to enable debug display, 0 to disable
+DIR = ms0:/MUSIC/ #must end with a slash
+#DIR = ms0:/PSP/MUSIC/
+
+VOLUP = SELECT|UP
+VOLDOWN = SELECT|DOWN
+START_STOP = SELECT|LTRIGGER
+PREVIOUS = SELECT|LEFT
+NEXT = SELECT|RIGHT
+MODE_TOGGLE = SELECT|RTRIGGER #SEQ/RAND
+CPU_NEXT = SELECT|TRIANGLE
+CPU_PREV = SELECT|CROSS
+RELOAD = SELECT|CIRCLE
+DISPLAY = SELECT|SQUARE #on screen display
+IN_GAME_MUTE = SELECT|HOME #press this combo once to disable game sounds, and again to enable them
+LOOP = SELECT|START
+
+OC_WLAN = 0 #set to 1 to allow wireless connections to be made at cpu speeds >222MHz, this should be handled 
+            #directly in custom fws >= 3.03OE-C, if you have a problem with the vsh brower + overclocking, set VSH_CLOCK = 0
+            #if you have custom firmare >= 3.03OE-C this isn't needed
+
+ENABLE_VSH_CLOCK = 1  #set to 0 to disable the VSH from changing the cpu's speed, normally this is 1 
+                      #the vsh normally changes the clock speed when playing music with the screen off (to 133mHz cpu/44mHz bus)
+                      #when stoping the browser
+                      #up to 333mHz when playing certain video files (possibly, I haven't been able to confirm this)
+                      #and back to 222mHz when the above things are stopped
+                      #this also allows overclocking in the vsh browser
+
+#SELECT: These are the default startup settings, they are not changed by the music prx
+DEFAULT_MODE = SEQ #set to RAND to start up in random mode by default/ SEQ to have sequential
+VOLUME = 100 # 0-100, default volume
+CPU_SPEED = 222 # SELECT: in 3.40OE (and possbily other fws) setting the clock above 222 (bus > 111) causes the XMB (VSH) to crash  
+                # This seems fixed in 3.52-M33 2, if you have problems, you might want to update
+                # 1-333, cpu speed to start with
+BUS_SPEED = 111 # SELECT: if you have problems, try changing this to 222/111 , some things don't like you changing the cpu speed
+                # 1-167, must be less than half the cpu speed
