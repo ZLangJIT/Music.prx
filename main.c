@@ -428,6 +428,7 @@ int playlist_thread(SceSize args, void *argp)
 
 int main_thread(SceSize args, void *argp)
 {
+    sceKernelDelayThreadCB(DELAY_THREAD_SEC*10);
     SceCtrlData pad;
     u32 oldpad = 0;
     int speednum;
