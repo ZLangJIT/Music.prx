@@ -53,6 +53,35 @@ Playlist *music;
 
 int module_start(SceSize args, void *argp)
 {
+    u8 st_world = 0;
+    
+	switch( sceKernelInitKeyConfig() ){
+		case PSP_INIT_KEYCONFIG_VSH:  
+			st_world = 1;
+			break;
+		case PSP_INIT_KEYCONFIG_POPS: 
+			st_world = 2;
+			break;
+		case PSP_INIT_KEYCONFIG_GAME: 
+			st_world = 3;
+			break;
+	}
+	
+    if( st_world == 1 ){
+		while( sceKernelFindModuleByName( "sceVshBridge_Driver" ) == NULL ){
+			sceKernelDelayThread( 2000000 );
+		}
+	} else if( st_world == 2 ){
+		while( sceKernelFindModuleByName( "scePops_Manager" ) == NULL && sceKernelFindModuleByName( "popsloader_trademark" ) == NULL ){
+			sceKernelDelayThread( 2000000 );
+		}
+	} else if(sceKernelBootFrom() == PSP_BOOT_DISC && sceKernelInitApitype() != PSP_INIT_APITYPE_DISC_UPDATER) {
+		SceUID sfo;
+
+		sceUmdActivate(1, "disc0:");
+		sceUmdWaitDriveStat(PSP_UMD_READY);
+		sceUmdDeactivate(1, "disc0:");
+	}
     main_thid = sceKernelCreateThread("MAIN_Thread", main_thread, THREAD_PRIORITY+3, 0x4000, 0, NULL);
    	sceKernelStartThread(main_thid, args, argp);
 
@@ -428,7 +457,6 @@ int playlist_thread(SceSize args, void *argp)
 
 int main_thread(SceSize args, void *argp)
 {
-    sceKernelDelayThreadCB(DELAY_THREAD_SEC*10);
     SceCtrlData pad;
     u32 oldpad = 0;
     int speednum;
