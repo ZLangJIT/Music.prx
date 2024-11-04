@@ -1,4 +1,4 @@
-name: build mp3play
+name: build music.prx
 
 on:
   push:
@@ -15,17 +15,17 @@ jobs:
       - name: Setup PSPTOOLCHAIN
         uses: krystalgamer/setup-psptoolchain@latest
 
-      - name: build mp3play
+      - name: build music.prx
         run: make
 
       - name: Release package
         uses: softprops/action-gh-release@master
         with:
-          name: mp3play
-          tag_name:  mp3play
+          name: music
+          tag_name:  music
           body: |
-            mp3play psp plugin for CFW
+            music psp plugin for CFW
           files: |
-            mp3play.prx
+            music.prx
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
