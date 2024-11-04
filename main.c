@@ -7,6 +7,7 @@
 #include <pspctrl.h>
 #include <pspmscm.h>
 #include <pspdisplay.h>
+#include <pspumd.h>
 #include <systemctrl.h>
 
 #include <string.h>
