@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: setup-psptoolchain
-        uses: ./
+      - name: Setup PSPTOOLCHAIN
+        uses: krystalgamer/setup-psptoolchain@latest
 
       - name: build mp3play
         run: make
