@@ -443,21 +443,21 @@ int main_thread(SceSize args, void *argp)
 			break;
 	}
 	
-//     if( st_world == 1 ){
-// 		while( sceKernelFindModuleByName( "sceVshBridge_Driver" ) == NULL ){
-// 			sceKernelDelayThread( 2000000 );
-// 		}
-// 	} else if( st_world == 2 ){
-// 		while( sceKernelFindModuleByName( "scePops_Manager" ) == NULL && sceKernelFindModuleByName( "popsloader_trademark" ) == NULL ){
-// 			sceKernelDelayThread( 2000000 );
-// 		}
-// 	} else if(sceKernelBootFrom() == PSP_BOOT_DISC && sceKernelInitApitype() != PSP_INIT_APITYPE_DISC_UPDATER) {
-// 		SceUID sfo;
+    if( st_world == 1 ){
+		while( sceKernelFindModuleByName( "sceVshBridge_Driver" ) == NULL ){
+			sceKernelDelayThread( 2000000 );
+		}
+	} else if( st_world == 2 ){
+		while( sceKernelFindModuleByName( "scePops_Manager" ) == NULL && sceKernelFindModuleByName( "popsloader_trademark" ) == NULL ){
+			sceKernelDelayThread( 2000000 );
+		}
+	} else if(sceKernelBootFrom() == PSP_BOOT_DISC && sceKernelInitApitype() != PSP_INIT_APITYPE_DISC_UPDATER) {
+		SceUID sfo;
 
-// 		sceUmdActivate(1, "disc0:");
-// 		sceUmdWaitDriveStat(PSP_UMD_READY);
-// 		sceUmdDeactivate(1, "disc0:");
-// 	}
+		sceUmdActivate(1, "disc0:");
+		sceUmdWaitDriveStat(PSP_UMD_READY);
+		sceUmdDeactivate(1, "disc0:");
+	}
 	SceCtrlData pad;
     u32 oldpad = 0;
     int speednum;
