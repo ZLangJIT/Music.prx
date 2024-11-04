@@ -17,3 +17,15 @@ jobs:
 
       - name: build mp3play
         run: make
+
+      - name: Release package
+        uses: softprops/action-gh-release@master
+        with:
+          name: mp3play
+          tag_name:  mp3play
+          body: |
+            mp3play psp plugin for CFW
+          files: |
+            mp3play.prx
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
