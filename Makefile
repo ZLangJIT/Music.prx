@@ -30,7 +30,7 @@ CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 LIBDIR = ./lib
-LIBS = -lpspaudiocodec -lpspaudio -lpspkernel -lm -lpsplibc -lpspsystemctrl_kernel
+LIBS = -lpspaudiocodec -lpspaudio -lpspkernel -lm -lpsplibc -lpspsystemctrl_kernel -lpspumd
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build_prx.mak
