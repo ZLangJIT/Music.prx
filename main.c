@@ -456,7 +456,7 @@ int main_thread(SceSize args, void *argp)
     if (display_thid >= 0)
         sceKernelStartThread(display_thid, 0, NULL);
         
-    sceKernelDelayThreadCB(DELAY_THREAD_SEC*10);
+    sceKernelDelayThreadCB(DELAY_THREAD_SEC*15);
     
     power_cbid = sceKernelCreateCallback("powercb", (SceKernelCallbackFunction)PowerCallback, NULL);
     scePowerRegisterCallback(15, power_cbid);
