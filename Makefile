@@ -14,7 +14,8 @@ OBJS = main.o \
        hw_mp3.o \
        hw_at3.o \
        hw_aa3.o \
-       exports.o
+       exports.o \
+       log.o
 
 PSP_FW_VERSION = 371
 BUILD_PRX = 1
