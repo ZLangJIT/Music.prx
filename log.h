@@ -1,4 +1,5 @@
 #ifndef LOG_H
 #define LOG_H
+void _log(char *fmt, ...);
 #define printf _log
-#undef LOG_H
+#endif // LOG_H
