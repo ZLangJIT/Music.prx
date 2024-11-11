@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+void _log_file(char *data);
+
 void _log(char *fmt, ...) {
 	va_list list;
 	char data[4096];
