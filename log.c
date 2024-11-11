@@ -1,7 +1,8 @@
-#include <pspkerneltypes.h>
+#include <pspkernel.h>
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 void _log_file(char *data);
 
