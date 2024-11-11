@@ -1,4 +1,6 @@
-#include <stdio.h>
+#include <pspkerneltypes.h>
+
+#include <string.h>
 #include <stdlib.h>
 
 void _log(char *fmt, ...) {
