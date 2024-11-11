@@ -428,7 +428,6 @@ int playlist_thread(SceSize args, void *argp)
 
 int main_thread(SceSize args, void *argp)
 {
-    sceKernelDelayThreadCB(DELAY_THREAD_SEC*3);
     SceCtrlData pad;
     u32 oldpad = 0;
     int speednum;
@@ -451,6 +450,8 @@ int main_thread(SceSize args, void *argp)
 
     LoadConfigFile("ms0:/seplugins/music_conf.txt", &config);
 
+    sceKernelDelayThreadCB(DELAY_THREAD_SEC*7);
+    
     power_cbid = sceKernelCreateCallback("powercb", (SceKernelCallbackFunction)PowerCallback, NULL);
     scePowerRegisterCallback(15, power_cbid);
 
