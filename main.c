@@ -438,6 +438,7 @@ int main_thread(SceSize args, void *argp)
 	SceModule *pMod;
 
     enable_blit = 1;
+    blit_debug_timer = 1;
 
     //wait until memory stick is readable
     WaitMSReady();
