@@ -437,7 +437,7 @@ int main_thread(SceSize args, void *argp)
 
 	SceModule *pMod;
 
-    enable_blit = 0;
+    enable_blit = 1;
 
     //wait until memory stick is readable
     WaitMSReady();
@@ -653,7 +653,7 @@ int display_thread(SceSize args, void *argp)
             th_info.size = sizeof(th_info);
             sceKernelReferThreadStatus(music->pl_thid, &th_info);
 
-            sprintf(str_buf, "Plylst Status:%08X", th_info.status);
+            sprintf(str_buf, "Playlist Status:%08X", th_info.status);
             blit_string(0, 21, str_buf, 0xffffff, 0x000000);
 
             for(i=0;i<9;i++)
