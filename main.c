@@ -452,10 +452,11 @@ int main_thread(SceSize args, void *argp)
     LoadConfigFile("ms0:/seplugins/music_conf.txt", &config);
 
     display_thid = sceKernelCreateThread("DisplayThread", display_thread, THREAD_PRIORITY+2, 0x4000, 0, NULL);//higher priority reduces flickering
+    
     if (display_thid >= 0)
         sceKernelStartThread(display_thid, 0, NULL);
         
-    sceKernelDelayThreadCB(DELAY_THREAD_SEC*7);
+    sceKernelDelayThreadCB(DELAY_THREAD_SEC*10);
     
     power_cbid = sceKernelCreateCallback("powercb", (SceKernelCallbackFunction)PowerCallback, NULL);
     scePowerRegisterCallback(15, power_cbid);
@@ -634,7 +635,7 @@ int display_thread(SceSize args, void *argp)
     char *fname;
     while(1)
     {
-
+  
         blit_string(0, 31, config.found == 0 ? "ms0:/seplugins/music_conf.txt found" : "ms0:/seplugins/music_conf.txt not found", 0xffffff, 0x000000);
         
         if (config.debug && blit_debug_timer)
