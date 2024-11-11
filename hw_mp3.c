@@ -10,6 +10,7 @@
 #include "playback.h"
 #include "hw.h"
 #include "hw_mp3.h"
+#include "log.h"
 
 //based on example from cooleyes http://forums.ps2dev.org/viewtopic.php?t=8469
 static int bitrates[] = {0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320 };

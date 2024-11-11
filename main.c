@@ -24,6 +24,7 @@
 #include "hw_aa3.h"
 #include "hw_at3.h"
 #include "hw_mp3.h"
+#include "log.h"
 
 PSP_MODULE_INFO("Music_prx", 0x1000, 1, 1);
 
@@ -49,7 +50,6 @@ SceUID display_thid;
 
 Playlist kmusic;
 Playlist *music;
-
 
 int module_start(SceSize args, void *argp)
 {

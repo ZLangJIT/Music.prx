@@ -13,6 +13,7 @@
 
 #include "playback.h"
 #include "hw.h"
+#include "log.h"
 
 //shared global vars
 SceUID fd;

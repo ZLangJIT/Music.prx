@@ -8,6 +8,7 @@
 #include "playback.h"
 #include "main.h"
 #include "config.h"
+#include "log.h"
 
 
 char ControlOptions[MAX_CONTROL_OPTIONS][30] = {
@@ -137,7 +138,7 @@ int i,x;
     memset(config,0,sizeof(MusicConf));
     fd = sceIoOpen(fname,PSP_O_RDONLY,0777);
 
-    if(fd < 0)//default config
+    if(!(fd > -1))//default config
     {
         printf("Error : Could not open config file : %s\n\n", fname);
         config->found = 0;
