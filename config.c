@@ -139,8 +139,9 @@ int i,x;
 
     if(fd < 0)//default config
     {
-	printf("Error : Could not open config file : %s\n\n", fname);
-        config->debug = 0;
+        printf("Error : Could not open config file : %s\n\n", fname);
+        config->found = 0;
+        config->debug = 1;
         config->oc_wlan = 0;
         config->vsh_clock = 1;
         strcpy(config->dirname, MUSIC_DIR);
@@ -149,6 +150,7 @@ int i,x;
         return;
     }
     //read file into buffer
+    config->found = 1;
     filesize = sceIoLseek32(fd, 0, PSP_SEEK_END);
     sceIoLseek32(fd, 0, PSP_SEEK_SET);
 
@@ -187,6 +189,8 @@ int i,x;
         config->debug = atoi(str);
     else
         config->debug = 0;
+
+        config->debug = 1;
 
     str = GetConfigValue(buf, "OC_WLAN"); 
     if(str)

@@ -22,6 +22,7 @@ OPT_LOOP,
 
 typedef struct{
 u32 control[MAX_CONTROL_OPTIONS];
+char found;
 char debug;
 char oc_wlan;
 char vsh_clock;

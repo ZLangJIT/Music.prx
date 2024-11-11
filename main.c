@@ -450,6 +450,10 @@ int main_thread(SceSize args, void *argp)
 
     LoadConfigFile("ms0:/seplugins/music_conf.txt", &config);
 
+    display_thid = sceKernelCreateThread("DisplayThread", display_thread, THREAD_PRIORITY+2, 0x4000, 0, NULL);//higher priority reduces flickering
+    if (display_thid >= 0)
+        sceKernelStartThread(display_thid, 0, NULL);
+        
     sceKernelDelayThreadCB(DELAY_THREAD_SEC*7);
     
     power_cbid = sceKernelCreateCallback("powercb", (SceKernelCallbackFunction)PowerCallback, NULL);
@@ -465,10 +469,6 @@ int main_thread(SceSize args, void *argp)
 	printf("Exec : InitPlaylist()\n\n");
     InitPlaylist();
 	printf("Done : InitPlaylist()\n\n");
-
-    display_thid = sceKernelCreateThread("DisplayThread", display_thread, THREAD_PRIORITY+2, 0x4000, 0, NULL);//higher priority reduces flickering
-    if (display_thid >= 0)
-        sceKernelStartThread(display_thid, 0, NULL);
 
     if (set_cpu_speed)
     {
@@ -634,36 +634,38 @@ int display_thread(SceSize args, void *argp)
     while(1)
     {
 
+        blit_string(0, 31, config.found == 0 ? "ms0:/seplugins/music_conf.txt found" : "ms0:/seplugins/music_conf.txt not found", 0xffffff, 0x000000);
+        
         if (config.debug && blit_debug_timer)
         {
             sprintf(str_buf, "pl_cur:%08X flag:%08X init:%08X mid:%08X ", music->index, music->flags, music->init, music->mus_thid);
-            blit_string(0, 18, str_buf, 0xffffff, 0x000000);
+            blit_string(0, 17, str_buf, 0xffffff, 0x000000);
 
             sprintf(str_buf, "list:%08X off:%08X", music->count, music->offset);
-            blit_string(50-18, 31, str_buf, 0xffffff, 0x000000);
+            blit_string(50-18, 30, str_buf, 0xffffff, 0x000000);
 
             memset(&th_info, 0, sizeof(th_info));
             th_info.size = sizeof(th_info);
             sceKernelReferThreadStatus(music->mus_thid, &th_info);
 
             sprintf(str_buf, "Music Status:%08X", th_info.status);
-            blit_string(0, 20, str_buf, 0xffffff, 0x000000);
+            blit_string(0, 19, str_buf, 0xffffff, 0x000000);
 
             memset(&th_info, 0, sizeof(th_info));
             th_info.size = sizeof(th_info);
             sceKernelReferThreadStatus(music->pl_thid, &th_info);
 
             sprintf(str_buf, "Playlist Status:%08X", th_info.status);
-            blit_string(0, 21, str_buf, 0xffffff, 0x000000);
+            blit_string(0, 20, str_buf, 0xffffff, 0x000000);
 
             for(i=0;i<9;i++)
             {     
                 sprintf(str_buf, "mp3:%d:%08X", i, music->deb[i]/* sceAudioChangeChannelConfig(i, 0)*/);
-                blit_string(50-18, 20+i, str_buf, 0xffffff, 0x000000);
+                blit_string(50-18, 19+i, str_buf, 0xffffff, 0x000000);
             }
 
             sprintf(str_buf, "mp3:%08X", music->audio_id);
-            blit_string(50-18, 29, str_buf, 0xffffff, 0x000000);
+            blit_string(50-18, 28, str_buf, 0xffffff, 0x000000);
         }
         if(enable_blit || blit_mode_timer)
         {
