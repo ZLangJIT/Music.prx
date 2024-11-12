@@ -38,6 +38,7 @@
 //for the playlist
 typedef struct Playlist 
 {
+    int scanning;
     int count;
     int omg_count;//count of files in OMGAUDIO and subdirs
     int index;
