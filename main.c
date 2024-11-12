@@ -292,7 +292,7 @@ int playlist_thread(SceSize args, void *argp)
 
         memcpy(ext, music->file + strlen(music->file) - 4, 5);//get file extension
 
-        SceUID fd = sceIoOpen(fname, PSP_O_RDONLY, 0777);
+        SceUID fd = sceIoOpen(music->file, PSP_O_RDONLY, 0777);
         if (fd >= 0) {
             sceIoRead(fd, music->bytes, sizeof(music->bytes));
             sceIoClose(fd);
@@ -712,7 +712,7 @@ int display_thread(SceSize args, void *argp)
 
         if(enable_blit)
         {
-            sprintf(str_buf, "first 10 bytes:   hex: %10X    readable: %s", music->bytes, music->bytes_readable);
+            sprintf(str_buf, "first 10 bytes:   hex: %X%X%X%X%X%X%X%X%X%X    readable: %s", music->bytes[0], music->bytes[1], music->bytes[2], music->bytes[3], music->bytes[4], music->bytes[5], music->bytes[6], music->bytes[7], music->bytes[8], music->bytes[9], music->bytes_readable);
             blit_string(0, 31, str_buf, 0xffffff, 0x000000);
         
             fname = music->file;
