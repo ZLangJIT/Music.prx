@@ -665,7 +665,7 @@ int display_thread(SceSize args, void *argp)
             blit_string(0, 17, str_buf, 0xffffff, 0x000000);
 
             sprintf(str_buf, "list:%08X off:%08X", music->count, music->offset);
-            blit_string(50-18, 30, str_buf, 0xffffff, 0x000000);
+            blit_string(50-18, 29, str_buf, 0xffffff, 0x000000);
 
             memset(&th_info, 0, sizeof(th_info));
             th_info.size = sizeof(th_info);
@@ -712,7 +712,9 @@ int display_thread(SceSize args, void *argp)
 
         if(enable_blit)
         {
-            sprintf(str_buf, "first 10 bytes:   hex: %X%X%X%X%X%X%X%X%X%X    readable: %s", music->bytes[0], music->bytes[1], music->bytes[2], music->bytes[3], music->bytes[4], music->bytes[5], music->bytes[6], music->bytes[7], music->bytes[8], music->bytes[9], music->bytes_readable);
+            sprintf(str_buf, "first 10 bytes:   hex: %02X%02X%02X%02X%02X%02X%02X%02X%02X%02X", music->bytes[0], music->bytes[1], music->bytes[2], music->bytes[3], music->bytes[4], music->bytes[5], music->bytes[6], music->bytes[7], music->bytes[8], music->bytes[9]);
+            blit_string(0, 30, str_buf, 0xffffff, 0x000000);
+            sprintf(str_buf, "first 10 bytes:   readable: %s", music->bytes_readable);
             blit_string(0, 31, str_buf, 0xffffff, 0x000000);
         
             fname = music->file;
