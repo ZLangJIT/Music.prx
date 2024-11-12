@@ -42,7 +42,6 @@ MusicConf config;
 char str_buf[MAXPATH+1];
 int blit_cpu_timer = 0;
 int blit_mode_timer = 0;
-int blit_ready_timer = DISPLAY_TIMER_AMT;
 int blit_debug_timer = 0;
 int hw_init = 0;
 int music_prx_ready = 15;
@@ -592,8 +591,6 @@ int main_thread(SceSize args, void *argp)
                     LoadConfigFile("ms0:/seplugins/music_conf.txt", &config);
 
                     InitPlaylist();
-
-                    blit_ready_timer = DISPLAY_TIMER_AMT;
                 }
 
                 if ((pad.Buttons & config.control[OPT_DISPLAY]) == config.control[OPT_DISPLAY])
@@ -640,7 +637,6 @@ int display_thread(SceSize args, void *argp)
     char *fname;
     while(1)
     {
-  
         if (music_prx_ready != 0) {
             sprintf(str_buf, "loading music.prx in %d second%s...", music_prx_ready, music_prx_ready == 1 ? "" : "s");
             blit_string(0, 33, str_buf, 0xffffff, 0x000000);
