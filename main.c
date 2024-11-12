@@ -182,8 +182,10 @@ int GetMusicFileName(char* dir,char* filename,int num,int basenum)
 
 void InitPlaylist()
 {
+    music->scanning = 1;
     music->omg_count = CountMusicFiles(OMG_AUDIO_DIR);
     music->count = CountMusicFiles(config.dirname) + music->omg_count;
+    music->scanning = 0;
 
     music->memid = sceKernelAllocPartitionMemory(1, "PLYLST_MEM", PSP_SMEM_Low, music->count*sizeof(int), NULL);
     music->random_played = sceKernelGetBlockHeadAddr(music->memid);
@@ -642,8 +644,16 @@ int display_thread(SceSize args, void *argp)
         blit_string(0, 31, config.found == 0 ? "ms0:/seplugins/music_conf.txt found" : "ms0:/seplugins/music_conf.txt not found", 0xffffff, 0x000000);
         
         if (music_prx_ready != 0) {
-            sprintf(str_buf, "loading music.prx in %d second%s...", music_prx_ready, music_prx_ready == 1 ? "" : "c");
+            sprintf(str_buf, "loading music.prx in %d second%s...", music_prx_ready, music_prx_ready == 1 ? "" : "s");
             blit_string(0, 33, str_buf, 0xffffff, 0x000000);
+        } else {
+            if (music->scanning == 1) {
+                sprintf(str_buf, "scanning directory [ %s ] ...", config.dirname);
+                blit_string(0, 33, str_buf, 0xffffff, 0x000000);
+            } else if (music->count == 0 && music->omg_count == 0) {
+                sprintf(str_buf, "no audio files found in directory [ %s ]");
+                blit_string(0, 33, str_buf, 0xffffff, 0x000000);
+            }
         }
         
         if (config.debug && blit_debug_timer)
