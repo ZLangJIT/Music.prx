@@ -142,7 +142,7 @@ int i,x;
     {
         printf("Error : Could not open config file : %s\n\n", fname);
         config->found = 0;
-        config->debug = 1;
+        config->debug = 0;
         config->oc_wlan = 0;
         config->vsh_clock = 1;
         strcpy(config->dirname, MUSIC_DIR);

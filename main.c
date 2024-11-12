@@ -440,8 +440,8 @@ int main_thread(SceSize args, void *argp)
 
 	SceModule *pMod;
 
-    enable_blit = 1;
-    blit_debug_timer = 1;
+    enable_blit = 0;
+    blit_debug_timer = 0;
 
     //wait until memory stick is readable
     WaitMSReady();
@@ -641,8 +641,6 @@ int display_thread(SceSize args, void *argp)
     while(1)
     {
   
-        blit_string(0, 31, config.found == 0 ? "ms0:/seplugins/music_conf.txt found" : "ms0:/seplugins/music_conf.txt not found", 0xffffff, 0x000000);
-        
         if (music_prx_ready != 0) {
             sprintf(str_buf, "loading music.prx in %d second%s...", music_prx_ready, music_prx_ready == 1 ? "" : "s");
             blit_string(0, 33, str_buf, 0xffffff, 0x000000);
