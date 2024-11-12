@@ -292,6 +292,15 @@ int playlist_thread(SceSize args, void *argp)
 
         memcpy(ext, music->file + strlen(music->file) - 4, 5);//get file extension
 
+        SceUID fd = sceIoOpen(fname, PSP_O_RDONLY, 0777);
+        if (fd >= 0) {
+            sceIoRead(fd, music->bytes, sizeof(music->bytes));
+            sceIoClose(fd);
+            for (int i = 0; i < 10; i++)
+                music->bytes_readable[i] = isprint(music->bytes[i]) ? music->bytes[i] : '.';
+            music->bytes_readable[10] = '\0';
+        }
+
         //get the id3 title so the osd will have a real name to display 
         if (!stricmp(ext, ".aa3") || !stricmp(ext, ".oma") || !stricmp(ext, ".omg"))
             GetOMGTitle(music->file, music->title);
@@ -703,6 +712,9 @@ int display_thread(SceSize args, void *argp)
 
         if(enable_blit)
         {
+            sprintf(str_buf, "first 10 bytes:   hex: %10X    readable: %s", music->bytes, music->bytes_readable);
+            blit_string(0, 31, str_buf, 0xffffff, 0x000000);
+        
             fname = music->file;
 
             if (strstr(fname,config.dirname))

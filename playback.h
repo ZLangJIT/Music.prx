@@ -63,6 +63,8 @@ typedef struct Playlist
     int deb[10];
     char file[MAXPATH];
     char title[MAXPATH];//only used for aa3(sonicstage) encoded files
+    char bytes[10];
+    char bytes_readable[11];
 } Playlist;
 
 extern Playlist *music;
