@@ -651,7 +651,7 @@ int display_thread(SceSize args, void *argp)
                 sprintf(str_buf, "scanning directory [ %s ] ...", config.dirname);
                 blit_string(0, 33, str_buf, 0xffffff, 0x000000);
             } else if (music->count == 0 && music->omg_count == 0) {
-                sprintf(str_buf, "no audio files found in directory [ %s ]");
+                sprintf(str_buf, "no audio files found in directory [ %s ]", config.dirname);
                 blit_string(0, 33, str_buf, 0xffffff, 0x000000);
             }
         }
