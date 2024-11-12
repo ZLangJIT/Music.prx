@@ -44,7 +44,7 @@ int blit_cpu_timer = 0;
 int blit_mode_timer = 0;
 int blit_debug_timer = 0;
 int hw_init = 0;
-int music_prx_ready = 15;
+int music_prx_ready = 20;
 
 SceUID display_thid;
 
