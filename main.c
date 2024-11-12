@@ -45,6 +45,7 @@ int blit_mode_timer = 0;
 int blit_ready_timer = DISPLAY_TIMER_AMT;
 int blit_debug_timer = 0;
 int hw_init = 0;
+int music_prx_ready = 15;
 
 SceUID display_thid;
 
@@ -455,8 +456,10 @@ int main_thread(SceSize args, void *argp)
     
     if (display_thid >= 0)
         sceKernelStartThread(display_thid, 0, NULL);
-        
-    sceKernelDelayThreadCB(DELAY_THREAD_SEC*15);
+    
+    for (;music_prx_ready!=0;music_prx_ready--) {
+        sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
+    }
     
     power_cbid = sceKernelCreateCallback("powercb", (SceKernelCallbackFunction)PowerCallback, NULL);
     scePowerRegisterCallback(15, power_cbid);
@@ -637,6 +640,11 @@ int display_thread(SceSize args, void *argp)
     {
   
         blit_string(0, 31, config.found == 0 ? "ms0:/seplugins/music_conf.txt found" : "ms0:/seplugins/music_conf.txt not found", 0xffffff, 0x000000);
+        
+        if (music_prx_ready != 0) {
+            sprintf(str_buf, "loading music.prx in %d second%s...", music_prx_ready, music_prx_ready == 1 ? "" : "c");
+            blit_string(0, 33, str_buf, 0xffffff, 0x000000);
+        }
         
         if (config.debug && blit_debug_timer)
         {
