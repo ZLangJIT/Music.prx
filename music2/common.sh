@@ -45,7 +45,7 @@ function emit_info_u()  {
     emit_info_base $@
     
     # user prx
-    echo "PSP_MODULE_INFO(\"$1\", 0, 1, 1);" >> $DIR/include/music2_plugin_generated.h
+    echo "PSP_MODULE_INFO($1, 0, 1, 1);" >> $DIR/include/music2_plugin_generated.h
 }
 
 function emit_info_k()  {
