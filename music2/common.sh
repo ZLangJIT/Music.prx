@@ -43,8 +43,8 @@ function link_u() {
 function emit_info_base()  {
     echo "#define MAIN_THREAD \"$2\"" > $DIR/include/music2_plugin_generated.h
     printf "" > $DIR/file_list
-    printf "" >> $DIR/before_libs
-    printf "" >> $DIR/after_libs
+    printf "" > $DIR/before_libs
+    printf "" > $DIR/after_libs
 }
 
 function emit_info_u()  {
