@@ -55,7 +55,6 @@ int module_start(SceSize args, void *argp)
 {
     main_thid = sceKernelCreateThread("MAIN_Thread", main_thread, THREAD_PRIORITY+3, 0x4000, 0, NULL);
    	sceKernelStartThread(main_thid, args, argp);
-
     sceKernelExitDeleteThread(0);
     return 0;
 }

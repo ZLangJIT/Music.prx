@@ -18,6 +18,9 @@ jobs:
       - name: build music.prx
         run: cd music1 ; make
 
+      - name: build music2.prx
+        run: cd music2 ; make
+
       - name: Release package
         uses: softprops/action-gh-release@master
         with:
@@ -27,5 +30,6 @@ jobs:
             music psp plugin for CFW
           files: |
             music1/music.prx
+            music2/*.prx
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
