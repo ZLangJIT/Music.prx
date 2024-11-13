@@ -1,13 +1,13 @@
 function compile_c() {
     echo "CC $1.c"
     psp-gcc -I $PSPSDK/include -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -c -o $1.o $1.c || exit 1
-    printf "$1.o " >> $DIR/file_list
+    printf -- "$1.o " >> $DIR/file_list
 }
 
 function compile() {
     echo "CXX $1.cpp"
     psp-g++ -I $PSPSDK/include -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -fno-exceptions -fno-rtti -c -o $1.o $1.cpp || exit 1
-    printf "$1.o " >> $DIR/file_list
+    printf --  "$1.o " >> $DIR/file_list
 }
 
 function link_k() {
@@ -26,11 +26,11 @@ function link_k() {
 }
 
 function link_before() {
-    printf "$@ " >> $DIR/before_libs
+    printf -- "$@ " >> $DIR/before_libs
 }
 
 function link_after() {
-    printf "$@ " >> $DIR/before_libs
+    printf -- "$@ " >> $DIR/before_libs
 }
 
 function link_u() {
