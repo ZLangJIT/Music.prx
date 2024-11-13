@@ -1,9 +1,8 @@
 #ifndef MUSIC2_PLUGIN_H
 #define MUSIC2_PLUGIN_H
 
-extern "C" {
-    #include <pspkernel.h>
-}
+#include <pspkernel.h>
+#include <pspmscm.h>
 
 //main thread delay amt
 //too high and the on screen display will flicker
@@ -11,20 +10,8 @@ extern "C" {
 #define DELAY_THREAD_AMT 10000
 
 #define DELAY_THREAD_SEC 1000000
-#define THREAD_PRIORITY 12
+#define THREAD_PRIORITY 15
 
-class prx_thread {
-    SceUID id;
-    void * arg[2];
-    public:
-    void start(const char * thread_name, int8_t priority);
-    void start(const char * thread_name, int8_t priority, void * arg);
-    void stop();
-    inline virtual void run(void * arg) {
-        while(1)
-          sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
-    };
-    inline virtual ~prx_thread() {};
-};
+#define waitMSReady() { while(MScmIsMediumInserted() <= 0) sceKernelDelayThreadCB(DELAY_THREAD_AMT); sceKernelDelayThreadCB(DELAY_THREAD_SEC); }
 
 #endif // MUSIC2_PLUGIN_H
