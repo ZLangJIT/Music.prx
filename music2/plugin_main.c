@@ -1,8 +1,12 @@
 #include <pspkernel.h>
 #include <pspmscm.h>
 
+//main thread delay amt
+//too high and the on screen display will flicker
+//too low and the system will slow down
+#define DELAY_THREAD_AMT 10000
+
 #define DELAY_THREAD_SEC 1000000
-#define DISPLAY_TIMER_AMT 65
 #define THREAD_PRIORITY 12
 
 //void * get_prx_main();
