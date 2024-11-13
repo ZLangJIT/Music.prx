@@ -12,6 +12,13 @@ SceUID main_thid;
 //too low and the system will slow down
 #define DELAY_THREAD_AMT 10000
 
+int main_thread(SceSize args, void *argp) {
+    while(1) {
+        sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
+    }
+    return 0;
+}
+
 extern "C" {
     //handles button input
     int module_start(SceSize args, void *argp) {
@@ -27,12 +34,4 @@ extern "C" {
     }
     PSP_MODULE_INFO("Music2_prx", 0x1000, 1, 1);
 }
-
-int main_thread(SceSize args, void *argp) {
-    while(1) {
-        sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
-    }
-    return 0;
-}
-
 
