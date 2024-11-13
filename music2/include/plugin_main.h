@@ -22,7 +22,7 @@ int prx_main_thread_fn(SceSize args, void *argp) {
 
 extern "C" {
     int module_start(SceSize args, void *argp) {
-        prx_main_thread = sceKernelCreateThread("PRX_MAIN_THREAD_" MAIN_THREAD, prx_main_thread_fn, THREAD_PRIORITY, 0x4000, 0, NULL);
+        prx_main_thread = sceKernelCreateThread("PRX_MAIN_THREAD_" MAIN_THREAD, prx_main_thread_fn, 12, 0x4000, 0, NULL);
        	sceKernelStartThread(prx_main_thread, args, argp);
         sceKernelExitDeleteThread(0);
         return 0;
