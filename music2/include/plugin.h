@@ -14,7 +14,10 @@ class prx_thread {
     void start(const char * thread_name, int8_t priority);
     void start(const char * thread_name, int8_t priority, void * arg);
     void stop();
-    inline virtual void run(void * arg) {};
+    inline virtual void run(void * arg) {
+        while(1)
+          sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
+    };
     inline virtual ~prx_thread() {};
 };
 

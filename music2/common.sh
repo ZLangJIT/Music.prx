@@ -25,10 +25,10 @@ function link() {
 
 function emit_info()  {
     # kernel prx
-    echo "PSP_MODULE_INFO($1, 0x1000, 1, 1);" > $DIR/include/music2_plugin_generated.h
+    #echo "PSP_MODULE_INFO($1, 0x1000, 1, 1);" > $DIR/include/music2_plugin_generated.h
 
     # user prx
-    #echo "PSP_MODULE_INFO($1, 0, 1, 1);" > $DIR/include/music2_plugin_generated.h
+    echo "PSP_MODULE_INFO($1, 0, 1, 1);" > $DIR/include/music2_plugin_generated.h
 
     echo "#define MAIN_THREAD \"$2\"" >> $DIR/include/music2_plugin_generated.h
     printf "" > $DIR/file_list
