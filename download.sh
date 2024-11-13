@@ -5,4 +5,4 @@ wget -q --show-progress https://github.com/ZLangJIT/Music.prx/releases/download/
 cd prx
 unzip seplugins.zip
 cd ..
-ls -l prx
+find -name *\.prx -exec ls -l {} \;
