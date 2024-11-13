@@ -21,8 +21,7 @@ extern "C" {
         return 0;
     }
 
-    void __dso_handle() {
-    }
+    __attribute__((visibility("hidden"))) void* __dso_handle = &__dso_handle;
 }
 
 #endif // MUSIC2_PLUGIN_MAIN_H
