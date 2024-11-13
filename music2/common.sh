@@ -30,7 +30,7 @@ function link_before() {
 }
 
 function link_after() {
-    printf -- "$@ " >> $DIR/before_libs
+    printf -- "$@ " >> $DIR/after_libs
 }
 
 function link_u() {
