@@ -11,8 +11,6 @@
 #define DELAY_THREAD_SEC 1000000
 #define THREAD_PRIORITY 12
 
-//void * get_prx_main();
-
 SceUID main_thid;
 
 void WaitMSReady() {
