@@ -57,7 +57,7 @@ function emit_info_k()  {
 
 function build_plugin() {
     cd $DIR/plugins/$1 || exit 1
-    emit_info_u music2_prx_plugin__$1 music2_prx_plugin__$1
+    emit_info_u m2prx__$2 m2prx__$2
     ./make.sh || exit 1
     link_u $1 || exit 1
     cd $DIR
