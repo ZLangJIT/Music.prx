@@ -30,6 +30,6 @@ jobs:
             music psp plugin for CFW
           files: |
             music1/music.prx
-            music2/*.prx
+            music2/seplugins.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true

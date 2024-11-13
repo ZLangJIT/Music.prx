@@ -1,8 +1,22 @@
-set -x
+export DIR=$(pwd)
+export PSPSDK=$(psp-config --pspsdk-path)
 
-psp-g++ -I /usr/local/pspdev/psp/sdk/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -fno-exceptions -fno-rtti -c -o main.o main.cpp
+. $DIR/common.sh
 
-psp-g++ -D_PSP_FW_VERSION=371 -L./lib -L/usr/local/pspdev/psp/sdk/lib -Wl,-q,-T/usr/local/pspdev/psp/sdk/lib/linkfile.prx -nostartfiles *.o -lpspkernel -o music2.elf
+mkdir seplugins
+mkdir seplugins/music2
+mkdir seplugins/music2/plugins
 
-psp-fixup-imports music2.elf
-psp-prxgen music2.elf music2.prx
+build_plugin display
+
+cd $DIR
+
+echo "PSP_MODULE_INFO(Music2_prx, 0x1000, 1, 1);" > $DIR/music2_plugin_generated.h
+
+compile main
+link music2
+
+cd $DIR
+mv -v music2.prx seplugins/music2/music2.prx
+
+zip seplugins

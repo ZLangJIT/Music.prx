@@ -1,5 +1,10 @@
 #include <plugin.h>
 
+//main thread delay amt
+//too high and the on screen display will flicker
+//too low and the system will slow down
+#define DELAY_THREAD_AMT 10000
+
 int main_thread(SceSize args, void *argp) {
     while(1) {
         sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
