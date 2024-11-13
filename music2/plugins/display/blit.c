@@ -24,7 +24,8 @@
 #include <pspkernel.h>
 #include <stdarg.h>
 #include <string.h>
-#include "log.h"
+
+#define printf(...)
 
 #define PSP_SCREEN_WIDTH 480
 #define PSP_SCREEN_HEIGHT 272

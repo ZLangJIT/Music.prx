@@ -1,5 +1,6 @@
 #include <plugin_main.h>
 #include "blit.h"
+#include <stdio.h>
 
 int main_thread() {
     char str_buf[120+1];
