@@ -18,7 +18,7 @@ function link_k() {
     compile_c exports
     
     echo "link $name"
-    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $(cat $DIR/before_libs) -lc -lpspkernel $(cat $DIR/after_libs) -lpspsdk -o $name.elf || exit 1
+    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $@ $(cat $DIR/before_libs) -lc -lpspkernel $(cat $DIR/after_libs) -lpspsdk -o $name.elf || exit 1
     
     echo "GEN $name.prx"
     psp-fixup-imports $name.elf || exit 1
