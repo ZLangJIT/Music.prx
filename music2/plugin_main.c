@@ -25,6 +25,13 @@ int main_thread(SceSize args, void *argp)
 {
     //wait until memory stick is readable
     WaitMSReady();
+    
+    // load up the display driver
+    int ret;
+    u32 uid = sceKernelLoadModule("ms0:/seplugins/music2/plugins/display.prx", 0, NULL);
+    if (uid >= 0) {
+        sceKernelStartModule(uid, 0, NULL, &ret, NULL);
+    }
 
     while (1) {
         sceKernelDelayThreadCB(DELAY_THREAD_SEC*3);

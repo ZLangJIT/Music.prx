@@ -15,7 +15,7 @@ link_k music2
 cd $DIR
 mv -v music2.prx seplugins/music2/music2.prx
 
-#compile plugin
+compile plugin
 
-#build_plugin display
+build_plugin display
 zip -r seplugins seplugins
