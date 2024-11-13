@@ -8,7 +8,11 @@ extern "C" {
 
 prx_thread * get_prx_main();
 
-#define PRX_MAIN(x) prx_thread * get_prx_main() { static x prx; return &prx; }
+void __dso_handle() {
+    
+}
+
+#define PRX_MAIN(x) prx_thread * get_prx_main() { static x prx; return &prx; } \
 
 extern "C" {
     int module_start(SceSize args, void *argp) {
