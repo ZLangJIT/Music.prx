@@ -29,9 +29,8 @@ extern "C" {
     }
     int module_reboot_before(SceSize args, void *argp) {
         sceKernelTerminateDeleteThread(main_thid);
-        //TerminatePlaylist();
         return 0;
     }
-    PSP_MODULE_INFO("Music2_prx", 0x1000, 1, 1);
+    PSP_MODULE_INFO(Music2_prx_manager, 0x1000, 1, 1);
 }
 

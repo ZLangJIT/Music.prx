@@ -19,7 +19,7 @@ jobs:
         run: cd music1 ; make
 
       - name: build music2.prx
-        run: cd music2 ; make
+        run: cd music2 ; ./make.sh
 
       - name: Release package
         uses: softprops/action-gh-release@master
