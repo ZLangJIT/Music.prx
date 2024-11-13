@@ -52,7 +52,7 @@ function emit_info_k()  {
     emit_info_base $@
     
     # kernel prx
-    echo "PSP_MODULE_INFO($1, 0x1000, 1, 1);" >> $DIR/include/music2_plugin_generated.h
+    echo "PSP_MODULE_INFO(\"$1\", 0x1000, 1, 1);" >> $DIR/include/music2_plugin_generated.h
 }
 
 function build_plugin() {
