@@ -136,7 +136,7 @@ int i,x;
 	printf("Exec : LoadConfigFile()\n\n");
 	
     memset(config,0,sizeof(MusicConf));
-    fd = sceIoOpen(fname,PSP_O_RDONLY,0777);
+    fd = sceIoOpen(fname,PSP_O_RDONLY,0644);
 
     if(!(fd > -1))//default config
     {

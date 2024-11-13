@@ -82,7 +82,7 @@ int hw_mp3_play()
     OutputBuffer_flip = 0;
     OutputPtr = OutputBuffer[0];
 
-    fd = sceIoOpen(music->file, PSP_O_RDONLY, 0777);
+    fd = sceIoOpen(music->file, PSP_O_RDONLY, 0644);
     if (fd < 0)
         return PLAYBACK_ERR;
 

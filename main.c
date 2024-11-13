@@ -292,7 +292,7 @@ int playlist_thread(SceSize args, void *argp)
 
         memcpy(ext, music->file + strlen(music->file) - 4, 5);//get file extension
 
-        SceUID fd = sceIoOpen(music->file, PSP_O_RDONLY, 0777);
+        SceUID fd = sceIoOpen(music->file, PSP_O_RDONLY, 0644);
         if (fd >= 0) {
             sceIoRead(fd, music->bytes, sizeof(music->bytes));
             sceIoClose(fd);
@@ -835,7 +835,7 @@ int GetID3TagSize(char *fname)
     SceUID fd;
     char header[10];
     int size = 0;
-    fd = sceIoOpen(fname, PSP_O_RDONLY, 0777);
+    fd = sceIoOpen(fname, PSP_O_RDONLY, 0644);
     if (fd < 0)
         return 0;
 
@@ -875,7 +875,7 @@ void GetOMGTitle(char *fname, char *title)
 
     maxsize = GetID3TagSize(fname);
 
-    fd = sceIoOpen(fname, PSP_O_RDONLY, 0777);
+    fd = sceIoOpen(fname, PSP_O_RDONLY, 0644);
     if (fd < 0)
         return;
 
@@ -929,7 +929,7 @@ char GetOMGFileType(char *fname)
 
     size = GetID3TagSize(fname);
 
-    fd = sceIoOpen(fname, PSP_O_RDONLY, 0777);
+    fd = sceIoOpen(fname, PSP_O_RDONLY, 0644);
     if (fd < 0)
         return TYPE_UNK;
 

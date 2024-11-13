@@ -60,7 +60,7 @@ int hw_aa3_play()
     AT3_OutputPtr = AT3_OutputBuffer[0];
     
     tag_size = GetID3TagSize(music->file);
-    fd = sceIoOpen(music->file, PSP_O_RDONLY, 0777);
+    fd = sceIoOpen(music->file, PSP_O_RDONLY, 0644);
     if (fd < 0)
         return PLAYBACK_ERR;
     
