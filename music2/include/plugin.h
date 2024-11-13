@@ -5,7 +5,13 @@ extern "C" {
     #include <pspkernel.h>
 }
 
+//main thread delay amt
+//too high and the on screen display will flicker
+//too low and the system will slow down
+#define DELAY_THREAD_AMT 10000
+
 #define DELAY_THREAD_SEC 1000000
+#define THREAD_PRIORITY 12
 
 class prx_thread {
     SceUID id;
