@@ -5,11 +5,17 @@ extern "C" {
     #include <pspkernel.h>
 }
 
-SceUID main_thid;
-
-#define THREAD_PRIORITY 12
 #define DELAY_THREAD_SEC 1000000
 
-#include <music2_plugin_generated.h>
+class prx_thread {
+    SceUID id;
+    void * arg[2];
+    public:
+    void start(const char * thread_name, int8_t priority);
+    void start(const char * thread_name, int8_t priority, void * arg);
+    void stop();
+    inline virtual void run(void * arg) {};
+    inline virtual ~prx_thread() {};
+};
 
 #endif // MUSIC2_PLUGIN_H

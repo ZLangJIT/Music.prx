@@ -12,9 +12,14 @@ function link() {
     psp-prxgen $1.elf $DIR/$1.prx || exit 1
 }
 
+function emit_info()  {
+    echo "PSP_MODULE_INFO($1, 0x1000, 1, 1);" > $DIR/music2_plugin_generated.h
+    echo "#define MAIN_THREAD \"$2\"" >> $DIR/music2_plugin_generated.h
+}
+
 function build_plugin() {
     cd $DIR/plugins/$1 || exit 1
-    echo "PSP_MODULE_INFO(Music2_Plugin__$1, 0x1000, 1, 1);" > $DIR/music2_plugin_generated.h
+    emit_info music2_prx_plugin__$1 music2_prx_plugin__$1
     ./make.sh || exit 1
     link $1 || exit 1
     cd $DIR

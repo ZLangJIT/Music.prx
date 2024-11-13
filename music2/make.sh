@@ -11,7 +11,7 @@ build_plugin display
 
 cd $DIR
 
-echo "PSP_MODULE_INFO(Music2_prx, 0x1000, 1, 1);" > $DIR/music2_plugin_generated.h
+emit_info music2_prx music2_prx
 
 compile main
 link music2
