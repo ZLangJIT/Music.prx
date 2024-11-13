@@ -13,7 +13,7 @@ prx_thread * get_prx_main();
 extern "C" {
 
     int module_start(SceSize args, void *argp) {
-        get_prx_main()->start(THREAD_NAME, THREAD_PRIORITY+3, NULL);
+        get_prx_main()->start(MAIN_THREAD, THREAD_PRIORITY+3, NULL);
         sceKernelExitDeleteThread(0);
         return 0;
     }
