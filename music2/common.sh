@@ -41,6 +41,7 @@ function link_u() {
     name=$1
     shift 1
     link_before -lstdc++
+    link_after -lpspuser
     link_k $name $DIR/plugin.o
 }
 
