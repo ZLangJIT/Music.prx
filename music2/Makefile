@@ -1,4 +1,4 @@
-TARGET = music
+TARGET = music2
 OBJS = main.o
 
 PSP_FW_VERSION = 371
