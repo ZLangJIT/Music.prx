@@ -5,7 +5,7 @@ function compile() {
 
 function link() {
     echo "link ELF $1"
-    psp-g++ -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles *.o -lpspkernel -o $1.elf || exit 1
+    psp-g++ -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles *.o $DIR/plugin.o -lpspkernel -o $1.elf || exit 1
     
     echo "generating PRX $1"
     psp-fixup-imports $1.elf || exit 1
@@ -13,8 +13,8 @@ function link() {
 }
 
 function emit_info()  {
-    echo "PSP_MODULE_INFO($1, 0x1000, 1, 1);" > $DIR/music2_plugin_generated.h
-    echo "#define MAIN_THREAD \"$2\"" >> $DIR/music2_plugin_generated.h
+    echo "PSP_MODULE_INFO($1, 0x1000, 1, 1);" > $DIR/include/music2_plugin_generated.h
+    echo "#define MAIN_THREAD \"$2\"" >> $DIR/include/music2_plugin_generated.h
 }
 
 function build_plugin() {
