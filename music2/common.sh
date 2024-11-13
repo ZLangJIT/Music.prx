@@ -71,7 +71,7 @@ function build_plugin() {
     name=$2
     shift 2
     cd $DIR/plugins/$dir || exit 1
-    emit_info_k m2prx__$name m2prx__$name
+    emit_info_u m2prx__$name m2prx__$name
     ./make.sh $dir $@ || exit 1
     cd $DIR
     mv -v $dir.prx seplugins/music2/plugins/$dir.prx
