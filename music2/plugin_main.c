@@ -1,6 +1,8 @@
 #include <pspkernel.h>
 #include <pspmscm.h>
 
+#include <music2_plugin_generated.h>
+
 //main thread delay amt
 //too high and the on screen display will flicker
 //too low and the system will slow down
@@ -27,7 +29,6 @@ void WaitMSReady()//wait until ms is ready
 
 int main_thread(SceSize args, void *argp)
 {
-
     //wait until memory stick is readable
     WaitMSReady();
 
@@ -38,7 +39,7 @@ int main_thread(SceSize args, void *argp)
 }
 
 int module_start(SceSize args, void *argp) {
-    main_thid = sceKernelCreateThread("MAIN_Thread_MUSIC2", main_thread, THREAD_PRIORITY+3, 0x4000, 0, NULL);
+    main_thid = sceKernelCreateThread(MAIN_THREAD, main_thread, THREAD_PRIORITY+3, 0x4000, 0, NULL);
    	sceKernelStartThread(main_thid, args, argp);
     sceKernelExitDeleteThread(0);
     return 0;

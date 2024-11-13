@@ -3,23 +3,19 @@ export PSPSDK=$(psp-config --pspsdk-path)
 
 . $DIR/common.sh
 
-compile_c plugin_main
-compile plugin
+cd $DIR
 
 mkdir seplugins
 mkdir seplugins/music2
 mkdir seplugins/music2/plugins
 
-build_plugin display
-
-cd $DIR
-
-emit_info music2_prx music2_prx
-
-compile main
-link music2
-
+emit_info_k music2_prx music2_prx
+compile_c plugin_main
+link_k music2
 cd $DIR
 mv -v music2.prx seplugins/music2/music2.prx
 
+#compile plugin
+
+#build_plugin display
 zip -r seplugins seplugins
