@@ -21,4 +21,4 @@ link music2
 cd $DIR
 mv -v music2.prx seplugins/music2/music2.prx
 
-zip seplugins
+zip -r seplugins seplugins
