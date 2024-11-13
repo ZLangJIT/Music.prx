@@ -9,9 +9,9 @@ extern "C" {
 prx_thread * get_prx_main();
 SceUID prx_main_thread;
 
-int prx_main_thread_fn(void * data) {
+int prx_main_thread_fn(SceSize args, void *argp) {
     prx_thread p;
-    p.run(data);
+    p.run(NULL);
     //get_prx_main()->start(MAIN_THREAD, 3);
     //get_prx_main()->run(NULL);
     //get_prx_main()->stop();
@@ -23,7 +23,7 @@ int prx_main_thread_fn(void * data) {
 extern "C" {
     int module_start(SceSize args, void *argp) {
         prx_main_thread = sceKernelCreateThread("PRX_MAIN_THREAD_" MAIN_THREAD, prx_main_thread_fn, THREAD_PRIORITY, 0x4000, 0, NULL);
-       	sceKernelStartThread(prx_main_thread, args, arg);
+       	sceKernelStartThread(prx_main_thread, args, argp);
         sceKernelExitDeleteThread(0);
         return 0;
     }
