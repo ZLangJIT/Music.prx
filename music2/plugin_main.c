@@ -15,15 +15,9 @@
 
 SceUID main_thid;
 
-void WaitMSReady()//wait until ms is ready
-{
-	int ret;
-    ret = MScmIsMediumInserted();
-    while(ret <= 0)
-    {
+void WaitMSReady() {
+    while(MScmIsMediumInserted() <= 0)
         sceKernelDelayThreadCB(DELAY_THREAD_AMT);
-        ret = MScmIsMediumInserted();
-    }
     sceKernelDelayThreadCB(DELAY_THREAD_SEC);
 }
 
@@ -49,6 +43,3 @@ int module_reboot_before(SceSize args, void *argp) {
     sceKernelTerminateDeleteThread(main_thid);
     return 0;
 }
-
-__attribute__((visibility("hidden")))
-void* __dso_handle = &__dso_handle;

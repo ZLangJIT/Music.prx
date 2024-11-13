@@ -25,3 +25,8 @@ void prx_thread::stop() {
 void prx_thread::start(const char * thread_name, int8_t priority) {
     start(thread_name, priority, nullptr);
 }
+
+extern "C" {
+    __attribute__((visibility("hidden")))
+    void* __dso_handle = &__dso_handle;
+}
