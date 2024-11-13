@@ -11,7 +11,7 @@ function compile() {
 }
 
 function link() {
-    echo "build exports for $1"
+    echo "GEN EXPORTS $1"
     psp-build-exports -b $DIR/exports.exp > exports.c
     compile_c exports
     

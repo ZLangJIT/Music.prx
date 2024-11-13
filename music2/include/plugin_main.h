@@ -7,17 +7,28 @@ extern "C" {
 }
 
 prx_thread * get_prx_main();
+SceUID prx_main_thread;
+
+int prx_main_thread_fn(void * data) {
+    prx_thread p;
+    p.run(data);
+    //get_prx_main()->start(MAIN_THREAD, 3);
+    //get_prx_main()->run(NULL);
+    //get_prx_main()->stop();
+    return 0;
+}
 
 #define PRX_MAIN(x) prx_thread * get_prx_main() { static x prx; return &prx; }
 
 extern "C" {
     int module_start(SceSize args, void *argp) {
-        get_prx_main()->start(MAIN_THREAD, 3);
+        prx_main_thread = sceKernelCreateThread("PRX_MAIN_THREAD_" MAIN_THREAD, prx_main_thread_fn, THREAD_PRIORITY, 0x4000, 0, NULL);
+       	sceKernelStartThread(prx_main_thread, args, arg);
         sceKernelExitDeleteThread(0);
         return 0;
     }
     int module_reboot_before(SceSize args, void *argp) {
-        get_prx_main()->stop();
+        sceKernelTerminateDeleteThread(prx_main_thread);
         return 0;
     }
 
