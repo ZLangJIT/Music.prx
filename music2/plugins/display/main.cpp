@@ -64,7 +64,7 @@ int blit_string(int sx,int sy,const char *msg,int fg_col,int bg_col)
 	unsigned int* vram32;
     int size;
    	sceDisplayGetMode(&unk, &pwidth, &pheight);
-   	sceDisplayGetFrameBuf(reinterpret_cast<void**>(&vram32), &bufferwidth, &pixelformat, reinterpret_cast<int>(&unk));
+   	sceDisplayGetFrameBuf(reinterpret_cast<void**>(&vram32), &bufferwidth, &pixelformat, PSP_DISPLAY_SETBUF_IMMEDIATE);
 
     if((bufferwidth == 0) || (vram32 == 0))
         return 0;
