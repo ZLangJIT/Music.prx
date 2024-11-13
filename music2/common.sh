@@ -26,11 +26,13 @@ function link_k() {
 }
 
 function link_before() {
-    printf -- "$@ " >> $DIR/before_libs
+    printf -- "$@" >> $DIR/before_libs
+    printf " " >> $DIR/before_libs
 }
 
 function link_after() {
-    printf -- "$@ " >> $DIR/after_libs
+    printf -- "$@" >> $DIR/after_libs
+    printf " " >> $DIR/after_libs
 }
 
 function link_u() {
