@@ -18,3 +18,4 @@ LIBS =
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build_prx.mak
+
