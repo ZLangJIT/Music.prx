@@ -16,7 +16,7 @@ function link() {
     compile_c exports
     
     echo "link ELF $1"
-    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $DIR/plugin.o -lstdc++ -lc -lpspkernel -lpspuser -lpspsdk -o $1.elf || exit 1
+    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $DIR/plugin.o $DIR/plugin_main.o -lstdc++ -lc -lpspkernel -lpspuser -lpspsdk -o $1.elf || exit 1
     
     echo "generating PRX $1"
     psp-fixup-imports $1.elf || exit 1

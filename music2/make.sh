@@ -3,6 +3,7 @@ export PSPSDK=$(psp-config --pspsdk-path)
 
 . $DIR/common.sh
 
+compile_c plugin_main
 compile plugin
 
 mkdir seplugins
