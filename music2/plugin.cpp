@@ -26,7 +26,7 @@ void prx_thread::start(const char * thread_name, int8_t priority) {
     start(thread_name, priority, nullptr);
 }
 
-void * get_prx_main();
+prx_thread * get_prx_main();
 
 extern "C" {
 
