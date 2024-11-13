@@ -5,7 +5,7 @@ function compile() {
 
 function link() {
     echo "link ELF $1"
-    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles *.o $DIR/plugin.o -lpspkernel -lpspsysmem_kernel -lpspsysmem_user -lstdc++ -lc -lpspkernel -lpspsdk -o $1.elf || exit 1
+    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles *.o $DIR/plugin.o -lpspsysmem_kernel -lstdc++ -lc -lpspkernel -lpspsysmem_user -lpspsdk -o $1.elf || exit 1
     
     echo "generating PRX $1"
     psp-fixup-imports $1.elf || exit 1
