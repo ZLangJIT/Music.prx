@@ -1,13 +1,13 @@
 function compile() {
-    echo "CXX $2.cpp"
-    psp-g++ -I $PSPSDK/include -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -fno-exceptions -fno-rtti -c -o $2.o $2.cpp || exit 1
+    echo "CXX $1.cpp"
+    psp-g++ -I $PSPSDK/include -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -fno-exceptions -fno-rtti -c -o $1.o $1.cpp || exit 1
 }
 
 function link() {
-    echo "link ELF $2"
+    echo "link ELF $1"
     psp-g++ -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles *.o -lpspkernel -o $1.elf || exit 1
     
-    echo "generating PRX $2"
+    echo "generating PRX $1"
     psp-fixup-imports $1.elf || exit 1
     psp-prxgen $1.elf $DIR/$1.prx || exit 1
 }
