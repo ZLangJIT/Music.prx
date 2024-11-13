@@ -10,30 +10,25 @@ function compile() {
     printf "$1.o " >> $DIR/file_list
 }
 
-function link_u() {
+function link_k() {
+    name=$1
+    shift 1
     echo "GEN exports.c"
     psp-build-exports -b $DIR/exports.exp > exports.c
     compile_c exports
     
-    echo "link $1"
-    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $DIR/plugin.o -lstdc++ -lc -lpspkernel -lpspuser -lpspsdk -o $1.elf || exit 1
+    echo "link $name"
+    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $@ -lc -lpspkernel -lpspsdk -o $name.elf || exit 1
     
-    echo "GEN $1.prx"
-    psp-fixup-imports $1.elf || exit 1
-    psp-prxgen $1.elf $DIR/$1.prx || exit 1
+    echo "GEN $name.prx"
+    psp-fixup-imports $name.elf || exit 1
+    psp-prxgen $name.elf $DIR/$name.prx || exit 1
 }
 
-function link_k() {
-    echo "GEN exports.c"
-    psp-build-exports -b $DIR/exports.exp > exports.c
-    compile_c exports
-    
-    echo "link $1"
-    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) -lc -lpspkernel -lpspsdk -o $1.elf || exit 1
-    
-    echo "GEN $1.prx"
-    psp-fixup-imports $1.elf || exit 1
-    psp-prxgen $1.elf $DIR/$1.prx || exit 1
+function link_u() {
+    name=$1
+    shift 1
+    link_k() $name $DIR/plugin.o $@ -lstdc++
 }
 
 function emit_info_base()  {
@@ -56,11 +51,13 @@ function emit_info_k()  {
 }
 
 function build_plugin() {
-    cd $DIR/plugins/$1 || exit 1
-    emit_info_u m2prx__$2 m2prx__$2
-    ./make.sh || exit 1
-    link_u $1 || exit 1
+    dir=$1
+    name=$2
+    shift 2
+    cd $DIR/plugins/$dir || exit 1
+    emit_info_u m2prx__$name m2prx__$name
+    ./make.sh $dir $@ || exit 1
     cd $DIR
-    mv -v $1.prx seplugins/music2/plugins/$1.prx
+    mv -v $dir.prx seplugins/music2/plugins/$dir.prx
 }
 
