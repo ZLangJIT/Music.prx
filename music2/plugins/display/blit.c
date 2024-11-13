@@ -67,7 +67,7 @@ int blit_string(int sx,int sy,const char *msg,int fg_col,int bg_col)
 	unsigned int* vram32;
     int size;
    	sceDisplayGetMode(&unk, &pwidth, &pheight);
-   	sceDisplayGetFrameBuf((void*)&vram32, &bufferwidth, &pixelformat, &unk);
+   	sceDisplayGetFrameBuf((void*)&vram32, &bufferwidth, &pixelformat, (int)&unk);
 
     if((bufferwidth == 0) || (vram32 == 0))
         return 0;
