@@ -3,4 +3,4 @@ dir=$1
 shift 1
 
 compile main
-link_u $dir
+link $dir

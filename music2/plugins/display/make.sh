@@ -5,4 +5,4 @@ shift 1
 compile main
 link_before -lpspdisplay
 link_before -lpspdebug
-link_u $dir
+link $dir
