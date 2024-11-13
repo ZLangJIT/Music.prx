@@ -1,13 +1,13 @@
 function compile() {
     echo "CC $1.c"
-    psp-gcc -I $PSPSDK/include -I $PSPSDK/include/libc -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -D_PSP_FW_VERSION=371 -c -o $1.o $1.c || exit 1
-    printf -- "$1.o " >> $DIR/file_list
+    psp-gcc -I $PSPSDK/include -I $PSPSDK/include/libc -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -D_PSP_FW_VERSION=371 -c -o $1.c.o $1.c || exit 1
+    printf -- "$1.c.o " >> $DIR/file_list
 }
 
-function compile_s() {
-    echo "CC $1.s"
-    psp-gcc -I $PSPSDK/include -I $PSPSDK/include/libc -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -D_PSP_FW_VERSION=371 -c -o $1.o $1.s || exit 1
-    printf -- "$1.o " >> $DIR/file_list
+function compile_S() {
+    echo "CC $1.S"
+    psp-gcc -I $PSPSDK/include -I $PSPSDK/include/libc -I $DIR/include -DNOEXIT -DFPM_MIPS -O2 -G0 -Wall -fno-pic -c -o $1.S.o $1.S || exit 1
+    printf -- "$1.S.o " >> $DIR/file_list
 }
 
 function link() {
