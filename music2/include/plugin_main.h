@@ -8,9 +8,6 @@ extern "C" {
 
 prx_thread * get_prx_main();
 
-void __dso_handle() {
-}
-
 #define PRX_MAIN(x) prx_thread * get_prx_main() { static x prx; return &prx; }
 
 extern "C" {
@@ -22,6 +19,9 @@ extern "C" {
     int module_reboot_before(SceSize args, void *argp) {
         get_prx_main()->stop();
         return 0;
+    }
+
+    void __dso_handle() {
     }
 }
 
