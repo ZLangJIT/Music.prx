@@ -64,7 +64,7 @@ int blit_string(int sx,int sy,const char *msg,int fg_col,int bg_col)
 	unsigned int* vram32;
     int size;
    	sceDisplayGetMode(&unk, &pwidth, &pheight);
-   	sceDisplayGetFrameBuf(reinterpret_cast<void*>(&vram32), &bufferwidth, &pixelformat, reinterpret_cast<int>(&unk));
+   	sceDisplayGetFrameBuf(reinterpret_cast<void**>(&vram32), &bufferwidth, &pixelformat, reinterpret_cast<int>(&unk));
 
     if((bufferwidth == 0) || (vram32 == 0))
         return 0;
@@ -72,7 +72,7 @@ int blit_string(int sx,int sy,const char *msg,int fg_col,int bg_col)
     init = 1;
     pspDebugScreenSetColorMode(pixelformat);
     pspDebugScreenSetOffset(0);
-    pspDebugScreenSetBase(reinterpret_cast<void*>(&vram32));
+    pspDebugScreenSetBase(reinterpret_cast<u32*>(&vram32));
 
     pspDebugScreenSetBackColor(bg_col);
     pspDebugScreenSetTextColor(fg_col);
