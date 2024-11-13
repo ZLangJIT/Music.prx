@@ -28,7 +28,7 @@ function link_k() {
 function link_u() {
     name=$1
     shift 1
-    link_k() $name $DIR/plugin.o $@ -lstdc++
+    link_k $name $DIR/plugin.o $@ -lstdc++
 }
 
 function emit_info_base()  {
