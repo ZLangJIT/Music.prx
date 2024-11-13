@@ -5,5 +5,4 @@ struct main_thread : public prx_thread {
           sceKernelDelayThreadCB(DELAY_THREAD_SEC*1);
     }
 };
-
 PRX_MAIN(main_thread);
