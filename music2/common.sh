@@ -18,22 +18,33 @@ function link_k() {
     compile_c exports
     
     echo "link $name"
-    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $@ -lc -lpspkernel -lpspuser -lpspsdk -o $name.elf || exit 1
+    psp-gcc -D_PSP_FW_VERSION=371 -L$DIR/lib -L$PSPSDK/lib -Wl,-q,-T$PSPSDK/lib/linkfile.prx -nostartfiles $(cat $DIR/file_list) $(cat $DIR/before_libs) -lc -lpspkernel $(cat $DIR/after_libs) -lpspsdk -o $name.elf || exit 1
     
     echo "GEN $name.prx"
     psp-fixup-imports $name.elf || exit 1
     psp-prxgen $name.elf $DIR/$name.prx || exit 1
 }
 
+function link_before() {
+    printf "$@ " >> $DIR/before_libs
+}
+
+function link_after() {
+    printf "$@ " >> $DIR/before_libs
+}
+
 function link_u() {
     name=$1
     shift 1
-    link_k $name $DIR/plugin.o $@ -lstdc++
+    link_before -lstdc++
+    link_k $name $DIR/plugin.o
 }
 
 function emit_info_base()  {
     echo "#define MAIN_THREAD \"$2\"" > $DIR/include/music2_plugin_generated.h
     printf "" > $DIR/file_list
+    printf "" >> $DIR/before_libs
+    printf "" >> $DIR/after_libs
 }
 
 function emit_info_u()  {
