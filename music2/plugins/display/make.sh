@@ -3,5 +3,5 @@ dir=$1
 shift 1
 
 compile main
-link_before -lpspdisplay_driver -lpspdisplay -lpspdebug
+link_before -lpspdebug -lpspdisplay_driver -lpspdisplay
 link $dir
