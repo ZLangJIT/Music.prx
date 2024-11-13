@@ -16,7 +16,7 @@ jobs:
         uses: krystalgamer/setup-psptoolchain@latest
 
       - name: build music.prx
-        run: make
+        run: cd music1 ; make
 
       - name: Release package
         uses: softprops/action-gh-release@master
@@ -26,6 +26,6 @@ jobs:
           body: |
             music psp plugin for CFW
           files: |
-            music.prx
+            music1/music.prx
           token: ${{ secrets.GITHUB_TOKEN }}
           fail_on_unmatched_files: true
