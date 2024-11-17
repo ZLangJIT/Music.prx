@@ -1,0 +1,3 @@
+#define MAIN_THREAD "m2prx__main"
+PSP_MODULE_INFO("m2prx__main", PSP_MODULE_KERNEL, 1, 1);
+PSP_NO_CREATE_MAIN_THREAD();

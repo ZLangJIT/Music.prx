@@ -10,9 +10,5 @@ int main_thread() {
         int ret;
         sceKernelStartModule(uid, 0, NULL, &ret, NULL);
     }
-
-    // while (1) {
-    //     sceKernelDelayThreadCB(DELAY_THREAD_SEC*3);
-    // }
     return 0;
 }

@@ -2,7 +2,6 @@
 #define MUSIC2_PLUGIN_H
 
 #include <pspkernel.h>
-#include <pspmscm.h>
 
 //main thread delay amt
 //too high and the on screen display will flicker
@@ -12,6 +11,7 @@
 #define DELAY_THREAD_SEC 1000000
 #define THREAD_PRIORITY 15
 
-#define waitMSReady() { while(MScmIsMediumInserted() <= 0) sceKernelDelayThreadCB(DELAY_THREAD_AMT); sceKernelDelayThreadCB(DELAY_THREAD_SEC); }
+void waitMSReady();
+
 
 #endif // MUSIC2_PLUGIN_H

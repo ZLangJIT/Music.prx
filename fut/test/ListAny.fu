@@ -1,0 +1,52 @@
+public class Test
+{
+	int Value;
+
+	public static bool CaptureParam(int i)
+	{
+		List<int>() list; //FAIL: cl
+		list.Add(42);
+		return list.Any(it => it == i) && !list.Any(it => it < i); //FAIL: c
+	}
+
+	public bool CaptureThis()
+	{
+		List<int>() list;
+		list.Add(10);
+		return list.Any(it => it == Value) && !list.Any(it => it < Value);
+	}
+
+	public static bool Run()
+	{
+		List<Test#>() list;
+		Test# t = new Test();
+		t.Value = 5;
+		list.Add(t);
+		t = new Test();
+		t.Value = 15;
+		list.Add(t);
+		t = new Test();
+		t.Value = 10;
+		list.Add(t);
+		List<int>() empty;
+		List<Test>() listRo;
+		List<List<int>()>() lol;
+		lol.Add();
+		lol[0].Add(10);
+		int c = 10;
+		return list.Any(it => it.Value > 10)
+			&& !empty.Any(it => true)
+			&& !listRo.Any(it => true)
+			&& CaptureParam(42)
+			&& t.CaptureThis()
+			&& lol.Any(l => l.Any(i => i == 10))
+			&& !lol.Any(l => l.Any(i => i == 42))
+			&& lol.Any(l => l.Any(i => i == c));
+	}
+}
+
+public class Derived : Test
+{
+}
+
+

@@ -1,0 +1,21 @@
+class Base
+{
+	public virtual bool IsDerived() => false;
+}
+
+class Derived : Base
+{
+	public override bool IsDerived() => true;
+}
+
+public static class Test
+{
+	public static bool Run()
+	{
+		Derived() d;
+		Base! b = d;
+		if (b is Derived ro) //FAIL: c py swift cl TODO; java 17
+			return ro.IsDerived();
+		return false;
+	}
+}

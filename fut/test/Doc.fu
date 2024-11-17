@@ -1,0 +1,50 @@
+/// Test for `fut` documentation comments.
+///
+/// Detailed description follows. First paragraph.
+///
+/// List.
+/// * item1
+/// * item2
+///
+/// One more paragraph.
+/// 2 * 3 < 7
+///
+/// M&Ms :->
+public class Test
+{
+	/// Constructs a test.
+	public Test()
+	{
+	}
+
+	/// An integer.
+	/// Details.
+	internal int X;
+
+	/// Returns `false` if the passed integer is odd.
+	public bool IsEven(
+		/// The integer to check.
+		int x)
+		=> x % 2 == 0;
+
+	/// Returns `true`.
+	public static bool Run()
+	{
+		Test() o;
+		return true;
+	}
+
+	/// Returns `null`.
+	public static string? ReturnNull() => null;
+
+	/// Returns the passed number squared.
+	public static float Square(
+		/// Some number.
+		float x)
+		throws
+			/// on overflow
+			Exception
+	{
+		return x * x;
+	}
+}

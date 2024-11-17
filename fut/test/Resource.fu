@@ -1,0 +1,10 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		if (resource<byte[]>("lipsum.txt").Length != 26)
+			return false;
+		byte[] r = resource<byte[]>("lipsum.txt");
+		return Encoding.UTF8.GetString(r, 0, 26) == "Lorem ipsum dolor sit amet";
+	}
+}

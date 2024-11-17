@@ -1,0 +1,10 @@
+public class Test
+{
+	public static bool Run()
+	{
+		Test() o;
+		string() s = "o=";
+		s += o; //ERROR: Cannot convert 'Test()' to 'string'
+		return true;
+	}
+}

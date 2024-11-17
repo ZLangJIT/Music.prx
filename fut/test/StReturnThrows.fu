@@ -1,0 +1,22 @@
+public static class Test
+{
+	public static void Foo() throws Exception
+	{
+		return;
+	}
+
+	public static byte GetByte() throws Exception
+	{
+		return 42;
+	}
+
+	public static float GetFloat() throws Exception
+	{
+		return GetByte();
+	}
+
+	public static bool Run()
+	{
+		return true;
+	}
+}

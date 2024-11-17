@@ -1,0 +1,9 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		double e = Math.E; //FAIL: cl if no double support
+		return e > 2.7182817 && e < 2.7182819
+			&& Math.Log(e) == 1;
+	}
+}

@@ -1,0 +1,11 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		List<string()>() list; //FAIL: cl
+		list.Add("foo");
+		list.Add("bar");
+		list.Add("quux");
+		return list.Last() == "quux";
+	}
+}

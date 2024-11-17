@@ -1,0 +1,21 @@
+public static class Runner
+{
+	public static int Main(string[] args) //FAIL: cl
+	{
+		int zero = 0;
+		if (args.Length == 2 && args[zero] == "foo" && args[1] == "bar") {
+			int i = 0;
+			foreach (string arg in args) {
+				if (arg != (i == 0 ? "foo" : "bar"))
+					break;
+				i++;
+			}
+			if (i == 2) {
+				Console.WriteLine("PASSED");
+				return 0;
+			}
+		}
+		Console.WriteLine("FAILED");
+		return 1;
+	}
+}

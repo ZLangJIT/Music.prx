@@ -1,0 +1,1936 @@
+// AST.fu - Fusion abstract syntax tree
+//
+// Copyright (C) 2011-2024  Piotr Fusik
+//
+// This file is part of Fusion Transpiler,
+// see https://github.com/fusionlanguage/fut
+//
+// Fusion Transpiler is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Fusion Transpiler is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Fusion Transpiler.  If not, see http://www.gnu.org/licenses/
+
+public enum FuVisibility
+{
+	Private,
+	Internal,
+	Protected,
+	Public,
+	NumericElementType,
+	FinalValueType
+}
+
+public enum FuCallType
+{
+	Static,
+	Normal,
+	Abstract,
+	Virtual,
+	Override,
+	Sealed
+}
+
+public enum FuPriority
+{
+	Statement,
+	Argument,
+	Assign,
+	Select,
+	SelectCond,
+	CondOr,
+	CondAnd,
+	Or,
+	Xor,
+	And,
+	Equality,
+	Rel,
+	Shift,
+	Add,
+	Mul,
+	Primary
+}
+
+public enum FuId
+{
+	None,
+	VoidType,
+	NullType,
+	BasePtr,
+	TypeParam0,
+	TypeParam0NotFinal,
+	TypeParam0Predicate,
+	SByteRange,
+	ByteRange,
+	ShortRange,
+	UShortRange,
+	IntType,
+	NIntType,
+	LongType,
+	FloatType,
+	DoubleType,
+	FloatIntType,
+	FloatingType,
+	NumericType,
+	BoolType,
+	StringClass,
+	StringPtrType,
+	StringStorageType,
+	MainArgsType,
+	ArrayPtrClass,
+	ArrayStorageClass,
+	ExceptionClass,
+	ListClass,
+	QueueClass,
+	StackClass,
+	PriorityQueueClass,
+	HashSetClass,
+	SortedSetClass,
+	DictionaryClass,
+	SortedDictionaryClass,
+	OrderedDictionaryClass,
+	TextWriterClass,
+	StringWriterClass,
+	RegexOptionsEnum,
+	RegexClass,
+	MatchClass,
+	JsonElementClass,
+	LockClass,
+	StringLength,
+	ArrayLength,
+	ConsoleError,
+	Main,
+	ClassToString,
+	MatchStart,
+	MatchEnd,
+	MatchLength,
+	MatchValue,
+	MathNaN,
+	MathNegativeInfinity,
+	MathPositiveInfinity,
+	EnumFromInt,
+	EnumHasFlag,
+	IntTryParse,
+	LongTryParse,
+	DoubleTryParse,
+	StringContains,
+	StringEndsWith,
+	StringIndexOf,
+	StringLastIndexOf,
+	StringReplace,
+	StringStartsWith,
+	StringSubstring,
+	StringToLower,
+	StringToUpper,
+	ArrayBinarySearchAll,
+	ArrayBinarySearchPart,
+	ArrayContains,
+	ArrayCopyTo,
+	ArrayFillAll,
+	ArrayFillPart,
+	ArraySortAll,
+	ArraySortPart,
+	ListAdd,
+	ListAddRange,
+	ListAll,
+	ListAny,
+	ListClear,
+	ListContains,
+	ListCopyTo,
+	ListCount,
+	ListIndexOf,
+	ListInsert,
+	ListLast,
+	ListRemoveAt,
+	ListRemoveRange,
+	ListSortAll,
+	ListSortPart,
+	QueueClear,
+	QueueCount,
+	QueueDequeue,
+	QueueEnqueue,
+	QueuePeek,
+	StackClear,
+	StackCount,
+	StackPeek,
+	StackPush,
+	StackPop,
+	PriorityQueueClear,
+	PriorityQueueCount,
+	PriorityQueueDequeue,
+	PriorityQueueEnqueue,
+	PriorityQueuePeek,
+	HashSetAdd,
+	HashSetClear,
+	HashSetContains,
+	HashSetCount,
+	HashSetRemove,
+	SortedSetAdd,
+	SortedSetClear,
+	SortedSetContains,
+	SortedSetCount,
+	SortedSetRemove,
+	DictionaryAdd,
+	DictionaryClear,
+	DictionaryContainsKey,
+	DictionaryCount,
+	DictionaryRemove,
+	SortedDictionaryClear,
+	SortedDictionaryContainsKey,
+	SortedDictionaryCount,
+	SortedDictionaryRemove,
+	OrderedDictionaryClear,
+	OrderedDictionaryContainsKey,
+	OrderedDictionaryCount,
+	OrderedDictionaryRemove,
+	TextWriterWrite,
+	TextWriterWriteChar,
+	TextWriterWriteCodePoint,
+	TextWriterWriteLine,
+	ConsoleWrite,
+	ConsoleWriteLine,
+	StringWriterClear,
+	StringWriterToString,
+	ConvertToBase64String,
+	UTF8GetByteCount,
+	UTF8GetBytes,
+	UTF8GetString,
+	EnvironmentGetEnvironmentVariable,
+	RegexCompile,
+	RegexEscape,
+	RegexIsMatchStr,
+	RegexIsMatchRegex,
+	MatchFindStr,
+	MatchFindRegex,
+	MatchGetCapture,
+	JsonElementParse,
+	JsonElementIsObject,
+	JsonElementIsArray,
+	JsonElementIsString,
+	JsonElementIsNumber,
+	JsonElementIsBoolean,
+	JsonElementIsNull,
+	JsonElementGetObject,
+	JsonElementGetArray,
+	JsonElementGetString,
+	JsonElementGetDouble,
+	JsonElementGetBoolean,
+	MathMethod,
+	MathAbs,
+	MathCeiling,
+	MathClamp,
+	MathFusedMultiplyAdd,
+	MathIsFinite,
+	MathIsInfinity,
+	MathIsNaN,
+	MathLog2,
+	MathMax,
+	MathMin,
+	MathRound,
+	MathTruncate
+}
+
+public abstract class FuDocInline
+{
+}
+
+public class FuDocText : FuDocInline
+{
+	internal string() Text;
+}
+
+public class FuDocCode : FuDocInline
+{
+	internal string() Text;
+}
+
+public class FuDocLine : FuDocInline
+{
+}
+
+public abstract class FuDocBlock
+{
+}
+
+public class FuDocPara : FuDocBlock
+{
+	internal List<FuDocInline#>() Children;
+}
+
+public class FuDocList : FuDocBlock
+{
+	internal List<FuDocPara()>() Items;
+}
+
+public class FuCodeDoc
+{
+	internal FuDocPara() Summary;
+	internal List<FuDocBlock#>() Details;
+}
+
+public abstract class FuVisitor
+{
+	protected void VisitOptionalStatement!(FuStatement? statement)
+	{
+		if (statement != null)
+			statement.AcceptStatement(this);
+	}
+
+	internal abstract void VisitConst!(FuConst statement);
+	internal abstract void VisitExpr!(FuExpr statement);
+	internal abstract void VisitBlock!(FuBlock statement);
+	internal abstract void VisitAssert!(FuAssert statement);
+	internal abstract void VisitBreak!(FuBreak statement);
+	internal abstract void VisitContinue!(FuContinue statement);
+	internal abstract void VisitDoWhile!(FuDoWhile statement);
+	internal abstract void VisitFor!(FuFor statement);
+	internal abstract void VisitForeach!(FuForeach statement);
+	internal abstract void VisitIf!(FuIf statement);
+	internal abstract void VisitLock!(FuLock statement);
+	internal abstract void VisitNative!(FuNative statement);
+	internal abstract void VisitReturn!(FuReturn statement);
+	internal abstract void VisitSwitch!(FuSwitch statement);
+	internal abstract void VisitThrow!(FuThrow statement);
+	internal abstract void VisitWhile!(FuWhile statement);
+	internal abstract void VisitEnumValue!(FuConst konst, FuConst? previous);
+	internal abstract void VisitLiteralNull!();
+	internal abstract void VisitLiteralFalse!();
+	internal abstract void VisitLiteralTrue!();
+	internal abstract void VisitLiteralLong!(long value);
+	internal abstract void VisitLiteralChar!(int value);
+	internal abstract void VisitLiteralDouble!(double value);
+	internal abstract void VisitLiteralString!(string value);
+	internal abstract void VisitAggregateInitializer!(FuAggregateInitializer expr);
+	internal abstract void VisitInterpolatedString!(FuInterpolatedString expr, FuPriority parent);
+	internal abstract void VisitSymbolReference!(FuSymbolReference expr, FuPriority parent);
+	internal abstract void VisitPrefixExpr!(FuPrefixExpr expr, FuPriority parent);
+	internal abstract void VisitPostfixExpr!(FuPostfixExpr expr, FuPriority parent);
+	internal abstract void VisitBinaryExpr!(FuBinaryExpr expr, FuPriority parent);
+	internal abstract void VisitSelectExpr!(FuSelectExpr expr, FuPriority parent);
+	internal abstract void VisitCallExpr!(FuCallExpr expr, FuPriority parent);
+	internal abstract void VisitLambdaExpr!(FuLambdaExpr expr);
+	internal abstract void VisitVar!(FuVar expr);
+}
+
+public abstract class FuStatement
+{
+	internal int Loc = 0;
+	public virtual int GetLocLength() => 0;
+	public abstract bool CompletesNormally();
+	public abstract void AcceptStatement(FuVisitor! visitor);
+}
+
+public abstract class FuExpr : FuStatement
+{
+	internal FuType#? Type;
+	public override bool CompletesNormally() => true;
+	public virtual string() ToString() { assert false; }
+	public virtual bool IsIndexing() => false;
+	public virtual bool IsLiteralZero() => false;
+	public virtual bool IsConstEnum() => false;
+	public virtual int IntValue() { assert false; }
+	public virtual void Accept(FuVisitor! visitor, FuPriority parent) { assert false; }
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitExpr(this); }
+	public virtual bool IsReferenceTo(FuSymbol symbol) => false;
+	public virtual bool IsNewString(bool substringOffset) => false;
+	public virtual bool IsUnique() => false;
+	public virtual void SetShared() { }
+}
+
+public abstract class FuName : FuExpr
+{
+	internal string() Name = "";
+	public override int GetLocLength() => this.Name.Length;
+	public abstract FuSymbol? GetSymbol();
+}
+
+public abstract class FuSymbol : FuName
+{
+	internal FuId Id = FuId.None;
+	internal FuSymbol!? Next;
+	internal FuScope!? Parent;
+	internal FuCodeDoc#? Documentation = null;
+	public override FuSymbol? GetSymbol() => this;
+	public override string() ToString() => this.Name;
+}
+
+public abstract class FuScope : FuSymbol
+{
+	protected Dictionary<string, FuSymbol#>() Dict;
+	internal FuSymbol!? First = null;
+	internal FuSymbol!? Last = null;
+
+	public int Count() => this.Dict.Count;
+
+	public bool Contains(FuSymbol symbol) => this.Dict.ContainsKey(symbol.Name);
+
+	public FuSymbol#? TryLookup(string name, bool global)
+	{
+		for (FuScope? scope = this; scope != null && (global || !(scope is FuProgram || scope is FuSystem)); scope = scope.Parent) {
+			if (scope.Dict.ContainsKey(name))
+				return scope.Dict[name];
+		}
+		return null;
+	}
+
+	protected void AddToList!(FuSymbol# symbol)
+	{
+		symbol.Next = null;
+		symbol.Parent = this;
+		if (this.First == null)
+			this.First = symbol;
+		else
+			this.Last.Next = symbol;
+		this.Last = symbol;
+	}
+
+	public void Add!(FuSymbol# symbol)
+	{
+		this.Dict[symbol.Name] = symbol;
+		AddToList(symbol);
+	}
+
+	public bool Encloses(FuSymbol symbol)
+	{
+		for (FuScope? scope = symbol.Parent; scope != null; scope = scope.Parent) {
+			if (scope == this)
+				return true;
+		}
+		return false;
+	}
+}
+
+public class FuAggregateInitializer : FuExpr
+{
+	internal List<FuExpr#>() Items;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitAggregateInitializer(this); }
+}
+
+public abstract class FuLiteral : FuExpr
+{
+	public abstract bool IsDefaultValue();
+	public virtual string() GetLiteralString() { assert false; }
+}
+
+class FuLiteralNull : FuLiteral
+{
+	public override int GetLocLength() => 4;
+	public override bool IsDefaultValue() => true;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralNull(); }
+	public override bool IsUnique() => true;
+	public override string() ToString() => "null";
+}
+
+class FuLiteralFalse : FuLiteral
+{
+	public override int GetLocLength() => 5;
+	public override bool IsDefaultValue() => true;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralFalse(); }
+	public override string() ToString() => "false";
+}
+
+class FuLiteralTrue : FuLiteral
+{
+	public override int GetLocLength() => 4;
+	public override bool IsDefaultValue() => false;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralTrue(); }
+	public override string() ToString() => "true";
+}
+
+class FuLiteralLong : FuLiteral
+{
+	internal long Value;
+	public override bool IsLiteralZero() => this.Value == 0;
+	public override int IntValue() => this.Value;
+	public override bool IsDefaultValue() => this.Value == 0;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralLong(this.Value); }
+	public override string() GetLiteralString() => $"{this.Value}";
+	public override string() ToString() => $"{this.Value}";
+}
+
+class FuLiteralChar : FuLiteralLong
+{
+	public static FuLiteralChar# New(int value, int loc) => new FuLiteralChar { Loc = loc, Type = FuRangeType.New(value, value), Value = value };
+	public override int GetLocLength() => this.Value >= 0x10000 || this.Value == '\n' || this.Value == '\r' || this.Value == '\t' || this.Value == '\\' || this.Value == '\'' ? 4 : 3;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralChar(this.Value); }
+//	public override string() ToString()
+//	{
+//		switch (this.Value) {
+//		case '\n': return "'\\n'";
+//		case '\r': return "'\\r'";
+//		case '\t': return "'\\t'";
+//		case '\\': return "'\\\\'";
+//		case '\'': return "'\\''";
+//		default: return $"'{(char) this.Value}'";
+//		}
+//	}
+}
+
+class FuLiteralDouble : FuLiteral
+{
+	internal double Value;
+	public override bool IsDefaultValue() => this.Value == 0 && 1.0 / this.Value > 0; // rule out -0.0
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralDouble(this.Value); }
+	public override string() GetLiteralString() => $"{this.Value}";
+	public override string() ToString() => $"{this.Value}";
+}
+
+class FuLiteralString : FuLiteral
+{
+	internal string() Value;
+	public override bool IsDefaultValue() => false;
+	public override int GetLocLength() => this.Value.Length + 2;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLiteralString(this.Value); }
+	public override string() GetLiteralString() => this.Value;
+	public override string() ToString() => $"\"{this.Value}\"";
+	public int GetAsciiLength()
+	{
+		int length = 0;
+		bool escaped = false;
+		foreach (int c in this.Value) {
+			if (c < 0 || c > 127)
+				return -1;
+			if (!escaped && c == '\\')
+				escaped = true;
+			else {
+				length++;
+				escaped = false;
+			}
+		}
+		return length;
+	}
+	public int GetAsciiAt(int i)
+	{
+		bool escaped = false;
+		foreach (int c in this.Value) {
+			if (c < 0 || c > 127)
+				return -1;
+			if (!escaped && c == '\\')
+				escaped = true;
+			else if (i == 0)
+				return escaped ? FuLexer.GetEscapedChar(c) : c;
+			else {
+				i--;
+				escaped = false;
+			}
+		}
+		return -1;
+	}
+	public int GetOneAscii()
+	{
+		switch (this.Value.Length) {
+		case 1:
+			int c = this.Value[0];
+			return c >= 0 && c <= 127 ? c : -1;
+		case 2:
+			return this.Value[0] == '\\' ? FuLexer.GetEscapedChar(this.Value[1]) : -1;
+		default:
+			return -1;
+		}
+	}
+}
+
+public class FuInterpolatedPart
+{
+	internal string() Prefix;
+	internal FuExpr# Argument;
+	internal FuExpr#? WidthExpr;
+	internal int Width;
+	internal int Format;
+	internal int Precision;
+}
+
+public class FuInterpolatedString : FuExpr
+{
+	internal List<FuInterpolatedPart()>() Parts;
+	internal string() Suffix;
+	public void AddPart!(string prefix, FuExpr# arg, FuExpr#? widthExpr = null, int format = ' ', int precision = -1)
+	{
+		this.Parts.Add();
+		FuInterpolatedPart! part = this.Parts.Last();
+		part.Prefix = prefix;
+		part.Argument = arg;
+		part.WidthExpr = widthExpr;
+		part.Format = format;
+		part.Precision = precision;
+	}
+	public override int GetLocLength() => 2; // FIXME
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitInterpolatedString(this, parent); }
+	public override bool IsNewString(bool substringOffset) => true;
+//	public override string() ToString()
+//	{
+//		StringBuilder sb = new StringBuilder();
+//		sb.Append("$\"");
+//		foreach (FuInterpolatedPart part in this.Parts) {
+//			sb.Append(part.Prefix.Replace("{", "{{"));
+//			sb.Append('{');
+//			sb.Append(part.Argument);
+//			if (part.WidthExpr != null) {
+//				sb.Append(',');
+//				sb.Append(part.WidthExpr);
+//			}
+//			if (part.Format != ' ') {
+//				sb.Append(':');
+//				sb.Append((char) part.Format);
+//				if (part.Precision >= 0)
+//					sb.Append(part.Precision);
+//			}
+//			sb.Append('}');
+//		}
+//		sb.Append(this.Suffix.Replace("{", "{{"));
+//		sb.Append('"');
+//		return sb.ToString();
+//	}
+}
+
+class FuImplicitEnumValue : FuExpr
+{
+	internal int Value;
+	public override int IntValue() => this.Value;
+}
+
+public class FuSymbolReference : FuName
+{
+	internal FuExpr#? Left = null;
+	internal FuSymbol!? Symbol;
+	public override bool IsConstEnum() => this.Symbol.Parent is FuEnum;
+	public override int IntValue()
+	{
+		assert this.Symbol is FuConst konst;
+		return konst.Value.IntValue();
+	}
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitSymbolReference(this, parent); }
+	public override bool IsReferenceTo(FuSymbol symbol) => this.Symbol == symbol;
+	public override bool IsNewString(bool substringOffset) => this.Symbol.Id == FuId.MatchValue;
+	public override void SetShared()
+	{
+		if (this.Symbol is FuNamedValue varOrField && varOrField.Type is FuDynamicPtrType! dynamic)
+			dynamic.Unique = false;
+	}
+	public override FuSymbol? GetSymbol() => this.Symbol;
+	public override string() ToString() => this.Left != null ? $"{this.Left}.{this.Name}" : this.Name;
+}
+
+public abstract class FuUnaryExpr : FuExpr
+{
+	internal FuToken Op;
+	internal FuExpr#? Inner;
+	public override int GetLocLength()
+	{
+		switch (this.Op) {
+		case FuToken.Increment:
+		case FuToken.Decrement:
+			return 2;
+		case FuToken.Minus:
+		case FuToken.Tilde:
+		case FuToken.ExclamationMark:
+		case FuToken.Hash:
+		case FuToken.QuestionMark:
+			return 1;
+		case FuToken.New:
+			return 3;
+		case FuToken.Resource:
+			return 8;
+		default:
+			assert false;
+		}
+	}
+}
+
+public class FuPrefixExpr : FuUnaryExpr
+{
+	public override bool IsConstEnum() => this.Type is FuEnumFlags && this.Inner.IsConstEnum(); // && this.Op == FuToken.Tilde
+	public override int IntValue()
+	{
+		assert this.Op == FuToken.Tilde;
+		return ~this.Inner.IntValue();
+	}
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitPrefixExpr(this, parent); }
+	public override bool IsUnique() => this.Op == FuToken.New && !(this.Inner is FuAggregateInitializer);
+}
+
+public class FuPostfixExpr : FuUnaryExpr
+{
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitPostfixExpr(this, parent); }
+}
+
+public class FuBinaryExpr : FuExpr
+{
+	internal FuExpr# Left;
+	internal FuToken Op;
+	internal FuExpr#? Right;
+	public override int GetLocLength()
+	{
+		switch (this.Op) {
+		case FuToken.Plus:
+		case FuToken.Minus:
+		case FuToken.Asterisk:
+		case FuToken.Slash:
+		case FuToken.Mod:
+		case FuToken.Less:
+		case FuToken.Greater:
+		case FuToken.And:
+		case FuToken.Or:
+		case FuToken.Xor:
+		case FuToken.Assign:
+		case FuToken.LeftBracket:
+		case FuToken.LeftBrace:
+			return 1;
+		case FuToken.ShiftLeft:
+		case FuToken.ShiftRight:
+		case FuToken.LessOrEqual:
+		case FuToken.GreaterOrEqual:
+		case FuToken.Equal:
+		case FuToken.NotEqual:
+		case FuToken.CondAnd:
+		case FuToken.CondOr:
+		case FuToken.AddAssign:
+		case FuToken.SubAssign:
+		case FuToken.MulAssign:
+		case FuToken.DivAssign:
+		case FuToken.ModAssign:
+		case FuToken.AndAssign:
+		case FuToken.OrAssign:
+		case FuToken.XorAssign:
+		case FuToken.Range:
+		case FuToken.Is:
+			return 2;
+		case FuToken.ShiftLeftAssign:
+		case FuToken.ShiftRightAssign:
+			return 3;
+		case FuToken.When:
+			return 0;
+		default:
+			assert false;
+		}
+	}
+	public override bool IsIndexing() => this.Op == FuToken.LeftBracket;
+	public override bool IsConstEnum()
+	{
+		switch (this.Op) {
+		case FuToken.And:
+		case FuToken.Or:
+		case FuToken.Xor:
+			return this.Type is FuEnumFlags && this.Left.IsConstEnum() && this.Right.IsConstEnum();
+		default:
+			return false;
+		}
+	}
+	public override int IntValue()
+	{
+		switch (this.Op) {
+		case FuToken.And:
+			return this.Left.IntValue() & this.Right.IntValue();
+		case FuToken.Or:
+			return this.Left.IntValue() | this.Right.IntValue();
+		case FuToken.Xor:
+			return this.Left.IntValue() ^ this.Right.IntValue();
+		default:
+			assert false;
+		}
+	}
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitBinaryExpr(this, parent); }
+	public override bool IsNewString(bool substringOffset) => this.Op == FuToken.Plus && this.Type.Id == FuId.StringStorageType;
+	public bool IsRel()
+	{
+		switch (this.Op) {
+		case FuToken.Equal:
+		case FuToken.NotEqual:
+		case FuToken.Less:
+		case FuToken.LessOrEqual:
+		case FuToken.Greater:
+		case FuToken.GreaterOrEqual:
+			return true;
+		default:
+			return false;
+		}
+	}
+	public bool IsAssign()
+	{
+		switch (this.Op) {
+		case FuToken.Assign:
+		case FuToken.AddAssign:
+		case FuToken.SubAssign:
+		case FuToken.MulAssign:
+		case FuToken.DivAssign:
+		case FuToken.ModAssign:
+		case FuToken.ShiftLeftAssign:
+		case FuToken.ShiftRightAssign:
+		case FuToken.AndAssign:
+		case FuToken.OrAssign:
+		case FuToken.XorAssign:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public string GetOpString()
+	{
+		switch (this.Op) {
+		case FuToken.Plus:
+			return "+";
+		case FuToken.Minus:
+			return "-";
+		case FuToken.Asterisk:
+			return "*";
+		case FuToken.Slash:
+			return "/";
+		case FuToken.Mod:
+			return "%";
+		case FuToken.ShiftLeft:
+			return "<<";
+		case FuToken.ShiftRight:
+			return ">>";
+		case FuToken.Less:
+			return "<";
+		case FuToken.LessOrEqual:
+			return "<=";
+		case FuToken.Greater:
+			return ">";
+		case FuToken.GreaterOrEqual:
+			return ">=";
+		case FuToken.Equal:
+			return "==";
+		case FuToken.NotEqual:
+			return "!=";
+		case FuToken.And:
+			return "&";
+		case FuToken.Or:
+			return "|";
+		case FuToken.Xor:
+			return "^";
+		case FuToken.CondAnd:
+			return "&&";
+		case FuToken.CondOr:
+			return "||";
+		case FuToken.Assign:
+			return "=";
+		case FuToken.AddAssign:
+			return "+=";
+		case FuToken.SubAssign:
+			return "-=";
+		case FuToken.MulAssign:
+			return "*=";
+		case FuToken.DivAssign:
+			return "/=";
+		case FuToken.ModAssign:
+			return "%=";
+		case FuToken.ShiftLeftAssign:
+			return "<<=";
+		case FuToken.ShiftRightAssign:
+			return ">>=";
+		case FuToken.AndAssign:
+			return "&=";
+		case FuToken.OrAssign:
+			return "|=";
+		case FuToken.XorAssign:
+			return "^=";
+		default:
+			assert false;
+		}
+	}
+
+	public override string() ToString() => this.Op == FuToken.LeftBracket ? $"{this.Left}[{this.Right}]" : $"({this.Left} {GetOpString()} {this.Right})";
+}
+
+public class FuSelectExpr : FuExpr
+{
+	internal FuExpr# Cond;
+	internal FuExpr# OnTrue;
+	internal FuExpr# OnFalse;
+	public override int GetLocLength() => 1;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitSelectExpr(this, parent); }
+	public override bool IsUnique() => this.OnTrue.IsUnique() && this.OnFalse.IsUnique();
+	public override void SetShared()
+	{
+		this.OnTrue.SetShared();
+		this.OnFalse.SetShared();
+	}
+	public override string() ToString() => $"({this.Cond} ? {this.OnTrue} : {this.OnFalse})";
+}
+
+public class FuCallExpr : FuExpr
+{
+	internal FuSymbolReference# Method;
+	internal List<FuExpr#>() Arguments;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitCallExpr(this, parent); }
+	public override bool IsNewString(bool substringOffset)
+		=> this.Type.Id == FuId.StringStorageType
+			&& this.Method.Symbol.Id != FuId.ListLast && this.Method.Symbol.Id != FuId.QueuePeek && this.Method.Symbol.Id != FuId.StackPeek
+			&& (substringOffset || this.Method.Symbol.Id != FuId.StringSubstring || this.Arguments.Count != 1);
+}
+
+class FuLambdaExpr : FuScope
+{
+	internal FuExpr# Body;
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitLambdaExpr(this); }
+}
+
+public abstract class FuCondCompletionStatement : FuScope
+{
+	bool CompletesNormallyValue;
+	public override bool CompletesNormally() => this.CompletesNormallyValue;
+	public void SetCompletesNormally!(bool value) { this.CompletesNormallyValue = value; }
+}
+
+public class FuBlock : FuCondCompletionStatement
+{
+	internal List<FuStatement#>() Statements;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitBlock(this); }
+}
+
+public class FuAssert : FuStatement
+{
+	internal FuExpr# Cond;
+	internal FuExpr#? Message = null;
+	public override int GetLocLength() => 6;
+	public override bool CompletesNormally() => !(this.Cond is FuLiteralFalse);
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitAssert(this); }
+}
+
+public abstract class FuLoop : FuCondCompletionStatement
+{
+	internal FuExpr#? Cond;
+	internal FuStatement# Body;
+	internal bool HasBreak = false;
+}
+
+class FuBreak : FuStatement
+{
+	internal FuCondCompletionStatement! LoopOrSwitch;
+	public override int GetLocLength() => 5;
+	public override bool CompletesNormally() => false;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitBreak(this); }
+}
+
+class FuContinue : FuStatement
+{
+	internal FuLoop Loop;
+	public override int GetLocLength() => 8;
+	public override bool CompletesNormally() => false;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitContinue(this); }
+}
+
+class FuDoWhile : FuLoop
+{
+	public override int GetLocLength() => 2;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitDoWhile(this); }
+}
+
+class FuFor : FuLoop
+{
+	internal FuExpr#? Init;
+	internal FuExpr#? Advance;
+	internal bool IsRange = false;
+	internal bool IsIndVarUsed;
+	internal long RangeStep;
+	public override int GetLocLength() => 3;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitFor(this); }
+}
+
+class FuForeach : FuLoop
+{
+	internal FuExpr# Collection;
+	public override int GetLocLength() => 7;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitForeach(this); }
+	public FuVar! GetVar()
+	{
+		assert this.First is FuVar! result;
+		return result;
+	}
+	public FuVar! GetValueVar() => this.GetVar().NextVar();
+}
+
+class FuIf : FuCondCompletionStatement
+{
+	internal FuExpr# Cond;
+	internal FuStatement# OnTrue;
+	internal FuStatement#? OnFalse;
+	public override int GetLocLength() => 2;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitIf(this); }
+}
+
+class FuLock : FuStatement
+{
+	internal FuExpr# Lock;
+	internal FuStatement# Body;
+	public override int GetLocLength() => 4;
+	public override bool CompletesNormally() => this.Body.CompletesNormally();
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitLock(this); }
+}
+
+public class FuNative : FuSymbol
+{
+	internal string() Content;
+	public override int GetLocLength() => 6;
+	public override bool CompletesNormally() => true;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitNative(this); }
+	public FuMember? GetFollowingMember()
+	{
+		for (FuSymbol? symbol = this.Next; symbol != null; symbol = symbol.Next) {
+			if (symbol is FuMember member)
+				return member;
+		}
+		return null;
+	}
+}
+
+class FuReturn : FuScope
+{
+	internal FuExpr#? Value;
+	public override int GetLocLength() => 6;
+	public override bool CompletesNormally() => false;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitReturn(this); }
+}
+
+public class FuCase
+{
+	internal List<FuExpr#>() Values;
+	internal List<FuStatement#>() Body;
+}
+
+public class FuSwitch : FuCondCompletionStatement
+{
+	internal FuExpr# Value;
+	internal List<FuCase()>() Cases;
+	internal List<FuStatement#>() DefaultBody;
+	public override int GetLocLength() => 6;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitSwitch(this); }
+
+	public bool IsTypeMatching() => this.Value.Type is FuClassType klass && klass.Class.Id != FuId.StringClass;
+
+	public bool HasWhen() => this.Cases.Any(kase => kase.Values.Any(value => value is FuBinaryExpr when1 && when1.Op == FuToken.When));
+
+	public static int LengthWithoutTrailingBreak(List<FuStatement#> body)
+	{
+		int length = body.Count;
+		if (length > 0 && body[length - 1] is FuBreak)
+			length--;
+		return length;
+	}
+
+	public bool HasDefault() => LengthWithoutTrailingBreak(this.DefaultBody) > 0;
+
+	static bool HasBreak(FuStatement statement)
+	{
+		switch (statement) {
+		case FuBreak:
+			return true;
+		case FuIf ifStatement:
+			return HasBreak(ifStatement.OnTrue) || (ifStatement.OnFalse != null && HasBreak(ifStatement.OnFalse));
+		case FuBlock block:
+			return block.Statements.Any(child => HasBreak(child));
+		default:
+			return false;
+		}
+	}
+
+	public static bool HasEarlyBreak(List<FuStatement#> body)
+	{
+		int length = LengthWithoutTrailingBreak(body);
+		for (int i = 0; i < length; i++) {
+			if (HasBreak(body[i]))
+				return true;
+		}
+		return false;
+	}
+
+	static bool ListHasContinue(List<FuStatement#> statements) => statements.Any(statement => HasContinue(statement));
+
+	static bool HasContinue(FuStatement statement)
+	{
+		switch (statement) {
+		case FuContinue:
+			return true;
+		case FuIf ifStatement:
+			return HasContinue(ifStatement.OnTrue) || (ifStatement.OnFalse != null && HasContinue(ifStatement.OnFalse));
+		case FuSwitch switchStatement:
+			return switchStatement.Cases.Any(kase => ListHasContinue(kase.Body)) || ListHasContinue(switchStatement.DefaultBody);
+		case FuBlock block:
+			return ListHasContinue(block.Statements);
+		default:
+			return false;
+		}
+	}
+
+	public static bool HasEarlyBreakAndContinue(List<FuStatement#> body) => HasEarlyBreak(body) && ListHasContinue(body);
+}
+
+public class FuThrow : FuStatement
+{
+	internal FuSymbolReference# Class;
+	internal FuExpr#? Message;
+	public override int GetLocLength() => 5;
+	public override bool CompletesNormally() => false;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitThrow(this); }
+}
+
+class FuWhile : FuLoop
+{
+	public override int GetLocLength() => 5;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitWhile(this); }
+}
+
+public class FuParameters : FuScope
+{
+}
+
+public class FuType : FuScope
+{
+	internal bool Nullable = false;
+	public virtual string() GetArraySuffix() => "";
+	public virtual bool IsAssignableFrom(FuType right) => this == right;
+	public virtual bool EqualsType(FuType right) => this == right;
+	public virtual bool IsArray() => false;
+	public virtual bool IsFinal() => false;
+	public virtual FuType GetBaseType() => this;
+	public virtual FuType GetStorageType() => this;
+	public FuClassType AsClassType()
+	{
+		assert this is FuClassType klass;
+		return klass;
+	}
+}
+
+class FuNumericType : FuType
+{
+}
+
+class FuIntegerType : FuNumericType
+{
+	public override bool IsAssignableFrom(FuType right) => right is FuIntegerType || right.Id == FuId.FloatIntType;
+}
+
+class FuRangeType : FuIntegerType
+{
+	internal int Min;
+	internal int Max;
+
+	static void AddMinMaxValue(FuRangeType# target, string name, int value)
+	{
+		FuRangeType# type = target.Min == target.Max ? target : new FuRangeType { Min = value, Max = value };
+		target.Add(new FuConst { Visibility = FuVisibility.Public, Name = name, Value = new FuLiteralLong { Type = type, Value = value }, VisitStatus = FuVisitStatus.Done });
+	}
+
+	public static FuRangeType# New(int min, int max)
+	{
+		assert min <= max;
+		FuRangeType# result = new FuRangeType { Id =
+			min >= 0 && max <= byte.MaxValue ? FuId.ByteRange :
+			min >= -128 && max <= 127 ? FuId.SByteRange :
+			min >= short.MinValue && max <= short.MaxValue ? FuId.ShortRange :
+			min >= 0 && max <= ushort.MaxValue ? FuId.UShortRange :
+			FuId.IntType, Min = min, Max = max };
+		AddMinMaxValue(result, "MinValue", min);
+		AddMinMaxValue(result, "MaxValue", max);
+		return result;
+	}
+
+	public override string() ToString() => this.Min == this.Max ? $"{this.Min}" : $"({this.Min} .. {this.Max})";
+
+	public override bool IsAssignableFrom(FuType right)
+	{
+		switch (right) {
+		case FuRangeType range:
+			return this.Min <= range.Max && this.Max >= range.Min;
+		case FuIntegerType:
+			return true;
+		default:
+			return right.Id == FuId.FloatIntType;
+		}
+	}
+
+	public override bool EqualsType(FuType right) => right is FuRangeType that && this.Min == that.Min && this.Max == that.Max;
+
+	public static int GetMask(int v)
+	{
+		// http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+		v |= v >> 1;
+		v |= v >> 2;
+		v |= v >> 4;
+		v |= v >> 8;
+		v |= v >> 16;
+		return v;
+	}
+
+	public int GetVariableBits() => GetMask(this.Min ^ this.Max);
+}
+
+class FuFloatingType : FuNumericType
+{
+	public override bool IsAssignableFrom(FuType right) => right is FuNumericType;
+}
+
+public abstract class FuNamedValue : FuSymbol
+{
+	internal FuExpr#? TypeExpr;
+	internal FuExpr#? Value;
+	public bool IsAssignableStorage() => this.Type is FuStorageType && !(this.Type is FuArrayStorageType) && this.Value is FuLiteralNull;
+}
+
+public abstract class FuMember : FuNamedValue
+{
+	internal FuVisibility Visibility;
+	internal int StartLine;
+	internal int StartColumn;
+	internal int EndLine;
+	internal int EndColumn;
+	protected FuMember()
+	{
+	}
+	public abstract bool IsStatic();
+}
+
+public class FuVar : FuNamedValue
+{
+	internal bool IsAssigned = false;
+	public static FuVar# New(FuType#? type, string name, FuExpr#? defaultValue = null)
+		=> new FuVar { Type = type, Name = name, Value = defaultValue };
+	public override void Accept(FuVisitor! visitor, FuPriority parent) { visitor.VisitVar(this); }
+	public FuVar!? NextVar()
+	{
+		assert this.Next is FuVar! def; // FIXME: FuVar!?
+		return def;
+	}
+}
+
+enum FuVisitStatus
+{
+	NotYet,
+	InProgress,
+	Done
+}
+
+public class FuConst : FuMember
+{
+	internal FuMethodBase? InMethod;
+	internal int InMethodIndex = 0;
+	internal FuVisitStatus VisitStatus;
+	public override void AcceptStatement(FuVisitor! visitor) { visitor.VisitConst(this); }
+	public override bool IsStatic() => true;
+}
+
+public class FuField : FuMember
+{
+	public override bool IsStatic() => false;
+}
+
+class FuProperty : FuMember
+{
+	public override bool IsStatic() => false;
+	public static FuProperty# New(FuType# type, FuId id, string name)
+		=> new FuProperty { Visibility = FuVisibility.Public, Type = type, Id = id, Name = name };
+}
+
+class FuStaticProperty : FuMember
+{
+	public override bool IsStatic() => true;
+	public static FuStaticProperty# New(FuType# type, FuId id, string name)
+		=> new FuStaticProperty { Visibility = FuVisibility.Public, Type = type, Id = id, Name = name };
+}
+
+public class FuThrowsDeclaration : FuSymbolReference
+{
+	internal FuCodeDoc#? Documentation;
+}
+
+public class FuMethodBase : FuMember
+{
+	internal FuParameters() Parameters;
+	internal List<FuThrowsDeclaration#>() Throws;
+	internal FuScope#? Body;
+	internal bool IsLive = false;
+	internal HashSet<FuMethod!>() Calls;
+	public override bool IsStatic() => false; // constructor
+	public void AddThis!(FuClass? klass, bool isMutator)
+	{
+		FuClassType# type = isMutator ? new FuReadWriteClassType() : new FuClassType();
+		type.Class = klass;
+		this.Parameters.Add(FuVar.New(type, "this"));
+	}
+	public bool IsMutator() => this.Parameters.First.Type is FuReadWriteClassType;
+}
+
+public class FuMethod : FuMethodBase
+{
+	internal FuCallType CallType;
+	public static FuMethod# New(FuClass? klass, FuVisibility visibility, FuCallType callType, FuType# type, FuId id, string name, bool isMutator, FuVar#? param0 = null, FuVar#? param1 = null, FuVar#? param2 = null, FuVar#? param3 = null)
+	{
+		FuMethod# result = new FuMethod { Visibility = visibility, CallType = callType, Type = type, Id = id, Name = name };
+		if (callType != FuCallType.Static)
+			result.AddThis(klass, isMutator);
+		if (param0 != null) {
+			result.Parameters.Add(param0);
+			if (param1 != null) {
+				result.Parameters.Add(param1);
+				if (param2 != null) {
+					result.Parameters.Add(param2);
+					if (param3 != null)
+						result.Parameters.Add(param3);
+				}
+			}
+		}
+		return result;
+	}
+	public override bool IsStatic() => this.CallType == FuCallType.Static;
+	public bool IsAbstractOrVirtual() => this.CallType == FuCallType.Abstract || this.CallType == FuCallType.Virtual;
+	public bool IsAbstractVirtualOrOverride() => this.CallType == FuCallType.Abstract || this.CallType == FuCallType.Virtual || this.CallType == FuCallType.Override;
+	public static string CallTypeToString(FuCallType callType)
+	{
+		switch (callType) {
+		case FuCallType.Static: return "static";
+		case FuCallType.Abstract: return "abstract";
+		case FuCallType.Virtual: return "virtual";
+		case FuCallType.Override: return "override";
+		case FuCallType.Sealed: return "sealed";
+		default: assert false;
+		}
+	}
+	public FuVar!? FirstParameter()
+	{
+		assert this.Parameters.First is FuVar! first; // FIXME: FuVar!?
+		return IsStatic() ? first : first.NextVar();
+	}
+	public int GetParametersCount()
+	{
+		int c = this.Parameters.Count();
+		return IsStatic() ? c : c - 1;
+	}
+	public FuMethod GetDeclaringMethod()
+	{
+		FuMethod method = this;
+		while (method.CallType == FuCallType.Override) {
+			assert method.Parent.Parent.TryLookup(method.Name, false) is FuMethod baseMethod;
+			method = baseMethod;
+		}
+		return method;
+	}
+}
+
+class FuMethodGroup : FuMember
+{
+	internal FuMethod#?[2] Methods;
+	FuMethodGroup()
+	{
+	}
+	public override bool IsStatic() { assert false; }
+	public static FuMethodGroup# New(FuMethod# method0, FuMethod# method1)
+	{
+		FuMethodGroup# result = new FuMethodGroup { Visibility = method0.Visibility, Name = method0.Name };
+		result.Methods[0] = method0;
+		result.Methods[1] = method1;
+		return result;
+	}
+}
+
+public abstract class FuContainerType : FuType
+{
+	internal bool IsPublic;
+	internal int StartLine;
+	internal int StartColumn;
+	internal int EndLine;
+	internal int EndColumn;
+}
+
+public class FuEnum : FuContainerType
+{
+	internal bool HasExplicitValue = false;
+	public FuSymbol GetFirstValue()
+	{
+		FuSymbol symbol = this.First;
+		while (!(symbol is FuConst))
+			symbol = symbol.Next;
+		return symbol;
+	}
+	public void AcceptValues(FuVisitor! visitor)
+	{
+		FuConst? previous = null;
+		for (FuSymbol? symbol = this.First; symbol != null; symbol = symbol.Next) {
+			if (symbol is FuConst konst) { // not HasFlag
+				visitor.VisitEnumValue(konst, previous);
+				previous = konst;
+			}
+		}
+	}
+}
+
+class FuEnumFlags : FuEnum
+{
+}
+
+public class FuClass : FuContainerType
+{
+	internal FuCallType CallType;
+	internal int TypeParameterCount = 0;
+	internal bool HasSubclasses = false;
+	internal FuSymbolReference() BaseClass;
+	internal FuMethodBase#? Constructor;
+	internal List<FuConst!>() ConstArrays;
+	List<FuNative#>() Natives; // FIXME: avoid by moving the ownership from the dictionary to the linked list?
+	public bool HasBaseClass() => this.BaseClass.Name.Length > 0;
+	public bool AddsVirtualMethods()
+	{
+		for (FuSymbol? symbol = this.First; symbol != null; symbol = symbol.Next) {
+			if (symbol is FuMethod method && method.IsAbstractOrVirtual())
+				return true;
+		}
+		return false;
+	}
+
+	public static FuClass# New(FuCallType callType, FuId id, string name, int typeParameterCount = 0)
+		=> new FuClass { CallType = callType, Id = id, Name = name, TypeParameterCount = typeParameterCount };
+
+	public void AddMethod!(FuType# type, FuId id, string name, bool isMutator, FuVar#? param0 = null, FuVar#? param1 = null, FuVar#? param2 = null, FuVar#? param3 = null)
+	{
+		Add(FuMethod.New(this, FuVisibility.Public, FuCallType.Normal, type, id, name, isMutator, param0, param1, param2, param3));
+	}
+
+	public void AddStaticMethod!(FuType# type, FuId id, string name, FuVar#? param0, FuVar#? param1 = null, FuVar#? param2 = null)
+	{
+		Add(FuMethod.New(this, FuVisibility.Public, FuCallType.Static, type, id, name, false, param0, param1, param2));
+	}
+
+	public void AddNative!(FuNative# nat)
+	{
+		AddToList(nat);
+		this.Natives.Add(nat);
+	}
+
+	public bool IsSameOrBaseOf(FuClass derived)
+	{
+		while (derived != this) {
+			if (derived.Parent is FuClass parent)
+				derived = parent;
+			else
+				return false;
+		}
+		return true;
+	}
+
+	public bool HasToString() => TryLookup("ToString", false) is FuMethod method && method.Id == FuId.ClassToString;
+
+	public bool AddsToString() => this.Dict.ContainsKey("ToString") && this.Dict["ToString"] is FuMethod method && method.Id == FuId.ClassToString
+		&& method.CallType != FuCallType.Override && method.CallType != FuCallType.Sealed;
+}
+
+public class FuClassType : FuType
+{
+	internal FuClass Class;
+	internal FuType#? TypeArg0;
+	internal FuType#? TypeArg1;
+	public FuType# GetElementType() => this.TypeArg0;
+	public FuType GetKeyType() => this.TypeArg0;
+	public FuType# GetValueType() => this.TypeArg1;
+	public override bool IsArray() => this.Class.Id == FuId.ArrayPtrClass || this.Class.Id == FuId.ArrayStorageClass;
+	public override FuType GetBaseType() => IsArray() ? GetElementType().GetBaseType() : this;
+
+	internal bool EqualTypeArguments(FuClassType right)
+	{
+		switch (this.Class.TypeParameterCount) {
+		case 0: return true;
+		case 1: return this.TypeArg0.EqualsType(right.TypeArg0);
+		case 2: return this.TypeArg0.EqualsType(right.TypeArg0) && this.TypeArg1.EqualsType(right.TypeArg1);
+		default: assert false;
+		}
+	}
+
+	protected bool IsAssignableFromClass(FuClassType right) => this.Class.IsSameOrBaseOf(right.Class) && EqualTypeArguments(right);
+
+	public override bool IsAssignableFrom(FuType right)
+	{
+		return (this.Nullable && right.Id == FuId.NullType)
+			|| (right is FuClassType rightClass && IsAssignableFromClass(rightClass));
+	}
+
+	protected bool EqualsTypeInternal(FuClassType that) => this.Nullable == that.Nullable && this.Class == that.Class && EqualTypeArguments(that);
+
+	public override bool EqualsType(FuType right)
+		=> right is FuClassType that && !(right is FuReadWriteClassType) && EqualsTypeInternal(that);
+
+	public override string() GetArraySuffix() => IsArray() ? "[]" : "";
+	public virtual string GetClassSuffix() => "";
+	string GetNullableSuffix() => this.Nullable ? "?" : "";
+
+	public override string() ToString()
+	{
+		if (IsArray())
+			return $"{GetElementType().GetBaseType()}{GetArraySuffix()}{GetNullableSuffix()}{GetElementType().GetArraySuffix()}";
+		switch (this.Class.TypeParameterCount) {
+		case 0: return $"{this.Class.Name}{GetClassSuffix()}{GetNullableSuffix()}";
+		case 1: return $"{this.Class.Name}<{this.TypeArg0}>{GetClassSuffix()}{GetNullableSuffix()}";
+		case 2: return $"{this.Class.Name}<{this.TypeArg0}, {this.TypeArg1}>{GetClassSuffix()}{GetNullableSuffix()}";
+		default: assert false;
+		}
+	}
+}
+
+public class FuReadWriteClassType : FuClassType
+{
+	public override bool IsAssignableFrom(FuType right)
+	{
+		return (this.Nullable && right.Id == FuId.NullType)
+			|| (right is FuReadWriteClassType rightClass && IsAssignableFromClass(rightClass));
+	}
+
+	public override bool EqualsType(FuType right)
+		=> right is FuReadWriteClassType that && !(right is FuOwningType) && EqualsTypeInternal(that);
+
+	public override string() GetArraySuffix() => IsArray() ? "[]!" : "";
+	public override string GetClassSuffix() => "!";
+}
+
+public abstract class FuOwningType : FuReadWriteClassType
+{
+}
+
+public class FuStorageType : FuOwningType
+{
+	public override bool IsFinal() => this.Class.Id != FuId.MatchClass;
+	public override bool IsAssignableFrom(FuType right) => right is FuStorageType rightClass && this.Class == rightClass.Class && EqualTypeArguments(rightClass);
+	public override bool EqualsType(FuType right) => right is FuStorageType that && EqualsTypeInternal(that);
+	public override string GetClassSuffix() => "()";
+}
+
+class FuDynamicPtrType : FuOwningType
+{
+	internal bool Unique = false;
+	public override bool IsAssignableFrom(FuType right)
+	{
+		return (this.Nullable && right.Id == FuId.NullType)
+			|| (right is FuDynamicPtrType rightClass && IsAssignableFromClass(rightClass));
+	}
+	public override bool EqualsType(FuType right) => right is FuDynamicPtrType that && EqualsTypeInternal(that);
+
+	public override string() GetArraySuffix() => IsArray() ? "[]#" : "";
+	public override string GetClassSuffix() => "#";
+}
+
+public class FuArrayStorageType : FuStorageType
+{
+	internal FuExpr# LengthExpr;
+	internal int Length;
+	internal bool PtrTaken = false;
+
+	public override FuType GetBaseType() => GetElementType().GetBaseType();
+	public override bool IsArray() => true;
+	public override string() GetArraySuffix() => $"[{this.Length}]";
+	public override bool EqualsType(FuType right) => right is FuArrayStorageType that && GetElementType().EqualsType(that.GetElementType()) && this.Length == that.Length;
+	public override FuType GetStorageType() => GetElementType().GetStorageType();
+}
+
+class FuStringType : FuClassType
+{
+}
+
+class FuStringStorageType : FuStringType
+{
+	public override bool IsAssignableFrom(FuType right) => right is FuStringType;
+	public override string GetClassSuffix() => "()";
+}
+
+class FuPrintableType : FuType
+{
+	public override bool IsAssignableFrom(FuType right)
+	{
+		switch (right) {
+		case FuNumericType:
+		case FuStringType:
+			return true;
+		case FuClassType klass:
+			return klass.Class.HasToString();
+		default:
+			return false;
+		}
+	}
+}
+
+public class FuSystem : FuScope
+{
+	internal FuType# VoidType = new FuType { Id = FuId.VoidType, Name = "void" };
+	internal FuType# NullType = new FuType { Id = FuId.NullType, Name = "null", Nullable = true };
+	FuType# TypeParam0 = new FuType { Id = FuId.TypeParam0, Name = "T" };
+	internal FuIntegerType# IntType = new FuIntegerType { Id = FuId.IntType, Name = "int" };
+	FuRangeType# UIntType = FuRangeType.New(0, int.MaxValue);
+	FuIntegerType# NIntType = new FuIntegerType { Id = FuId.NIntType, Name = "nint" };
+	internal FuIntegerType# LongType = new FuIntegerType { Id = FuId.LongType, Name = "long" };
+	internal FuRangeType# ByteType = FuRangeType.New(0, 0xff);
+	internal FuFloatingType# FloatType = new FuFloatingType { Id = FuId.FloatType, Name = "float" };
+	internal FuFloatingType# DoubleType = new FuFloatingType { Id = FuId.DoubleType, Name = "double" };
+	internal FuRangeType# CharType = FuRangeType.New(-0x80, 0xffff);
+	internal FuEnum# BoolType = new FuEnum { Id = FuId.BoolType, Name = "bool" };
+	FuClass# StringClass = FuClass.New(FuCallType.Normal, FuId.StringClass, "string");
+	internal FuStringType# StringPtrType = new FuStringType { Id = FuId.StringPtrType, Name = "string" };
+	internal FuStringType# StringNullablePtrType = new FuStringType { Id = FuId.StringPtrType, Name = "string", Nullable = true };
+	internal FuStringStorageType# StringStorageType = new FuStringStorageType { Id = FuId.StringStorageType };
+	internal FuType# PrintableType = new FuPrintableType { Name = "printable" };
+	internal FuClass# ArrayPtrClass = FuClass.New(FuCallType.Normal, FuId.ArrayPtrClass, "ArrayPtr", 1);
+	internal FuClass# ArrayStorageClass = FuClass.New(FuCallType.Normal, FuId.ArrayStorageClass, "ArrayStorage", 1);
+	internal FuEnum# RegexOptionsEnum;
+	internal FuReadWriteClassType# LockPtrType = new FuReadWriteClassType();
+
+	internal FuLiteralLong# NewLiteralLong(long value, int loc = 0)
+	{
+		FuType# type = value >= int.MinValue && value <= int.MaxValue ? FuRangeType.New(value, value) : LongType;
+		return new FuLiteralLong { Loc = loc, Type = type, Value = value };
+	}
+
+	internal FuLiteralString# NewLiteralString(string value, int loc = 0) => new FuLiteralString { Loc = loc, Type = StringPtrType, Value = value };
+
+	internal FuType# PromoteIntegerTypes(FuType left, FuType right)
+	{
+		return left == LongType || right == LongType ? LongType
+			: left == NIntType || right == NIntType ? NIntType
+			: IntType;
+	}
+
+	internal FuType#? PromoteFloatingTypes(FuType left, FuType right)
+	{
+		if (left.Id == FuId.DoubleType || right.Id == FuId.DoubleType)
+			return DoubleType;
+		if (left.Id == FuId.FloatType || right.Id == FuId.FloatType
+		 || left.Id == FuId.FloatIntType || right.Id == FuId.FloatIntType)
+			return FloatType;
+		return null;
+	}
+
+	internal FuType# PromoteNumericTypes(FuType# left, FuType# right)
+	{
+		// TODO: PromoteFloatingTypes(left, right) ?? PromoteIntegerTypes(left, right);
+		FuType#? result = PromoteFloatingTypes(left, right);
+		return result != null ? result : PromoteIntegerTypes(left, right);
+	}
+
+	internal FuEnum# NewEnum(bool flags)
+	{
+		FuEnum# enu = flags ? new FuEnumFlags() : new FuEnum();
+		enu.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Static, enu, FuId.EnumFromInt, "FromInt", false, FuVar.New(IntType, "value")));
+		if (flags)
+			enu.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.EnumHasFlag, "HasFlag", false, FuVar.New(enu, "flag")));
+		return enu;
+	}
+
+	FuClass! AddCollection!(FuId id, string name, int typeParameterCount, FuId clearId, FuId countId)
+	{
+		FuClass# result = FuClass.New(FuCallType.Normal, id, name, typeParameterCount);
+		result.AddMethod(VoidType, clearId, "Clear", true);
+		result.Add(FuProperty.New(NIntType, countId, "Count"));
+		Add(result);
+		return result;
+	}
+
+	void AddSet!(FuId id, string name, FuId addId, FuId clearId, FuId containsId, FuId countId, FuId removeId)
+	{
+		FuClass! set = AddCollection(id, name, 1, clearId, countId);
+		set.AddMethod(VoidType, addId, "Add", true, FuVar.New(TypeParam0, "value"));
+		set.AddMethod(BoolType, containsId, "Contains", false, FuVar.New(TypeParam0, "value"));
+		set.AddMethod(VoidType, removeId, "Remove", true, FuVar.New(TypeParam0, "value"));
+	}
+
+	FuClass AddDictionary!(FuId id, string name, FuId clearId, FuId containsKeyId, FuId countId, FuId removeId)
+	{
+		FuClass! dict = AddCollection(id, name, 2, clearId, countId);
+		dict.Add(FuMethod.New(dict, FuVisibility.FinalValueType, FuCallType.Normal, VoidType, FuId.DictionaryAdd, "Add", true, FuVar.New(TypeParam0, "key")));
+		dict.AddMethod(BoolType, containsKeyId, "ContainsKey", false, FuVar.New(TypeParam0, "key"));
+		dict.AddMethod(VoidType, removeId, "Remove", true, FuVar.New(TypeParam0, "key"));
+		return dict;
+	}
+
+	static void AddEnumValue(FuEnum# enu, FuConst# value)
+	{
+		value.Type = enu;
+		enu.Add(value);
+	}
+
+	FuConst# NewConstLong(string name, long value)
+	{
+		FuConst# result = new FuConst { Visibility = FuVisibility.Public, Name = name, Value = NewLiteralLong(value), VisitStatus = FuVisitStatus.Done };
+		result.Type = result.Value.Type;
+		return result;
+	}
+
+	FuConst# NewConstDouble(string name, double value)
+		=> new FuConst { Visibility = FuVisibility.Public, Name = name, Value = new FuLiteralDouble { Value = value, Type = DoubleType }, Type = DoubleType, VisitStatus = FuVisitStatus.Done };
+
+	void AddMinMaxValue(FuIntegerType! target, long min, long max)
+	{
+		target.Add(NewConstLong("MinValue", min));
+		target.Add(NewConstLong("MaxValue", max));
+	}
+
+	FuSystem()
+	{
+		Parent = null;
+		FuSymbol# basePtr = FuVar.New(null, "base");
+		basePtr.Id = FuId.BasePtr;
+		Add(basePtr);
+		AddMinMaxValue(IntType, int.MinValue, int.MaxValue);
+		IntType.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.IntTryParse, "TryParse", true, FuVar.New(StringPtrType, "value"), FuVar.New(IntType, "radix", NewLiteralLong(0))));
+		Add(IntType);
+		UIntType.Name = "uint";
+		Add(UIntType);
+		Add(NIntType);
+		AddMinMaxValue(LongType, long.MinValue, long.MaxValue);
+		LongType.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.LongTryParse, "TryParse", true, FuVar.New(StringPtrType, "value"), FuVar.New(IntType, "radix", NewLiteralLong(0))));
+		Add(LongType);
+		ByteType.Name = "byte";
+		Add(ByteType);
+		FuRangeType# shortType = FuRangeType.New(-0x8000, 0x7fff);
+		shortType.Name = "short";
+		Add(shortType);
+		FuRangeType# ushortType = FuRangeType.New(0, 0xffff);
+		ushortType.Name = "ushort";
+		Add(ushortType);
+		Add(FloatType);
+		DoubleType.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.DoubleTryParse, "TryParse", true, FuVar.New(StringPtrType, "value")));
+		Add(DoubleType);
+		Add(BoolType);
+		StringClass.AddMethod(BoolType, FuId.StringContains, "Contains", false, FuVar.New(StringPtrType, "value"));
+		StringClass.AddMethod(BoolType, FuId.StringEndsWith, "EndsWith", false, FuVar.New(StringPtrType, "value"));
+		StringClass.AddMethod(NIntType, FuId.StringIndexOf, "IndexOf", false, FuVar.New(StringPtrType, "value"));
+		StringClass.AddMethod(NIntType, FuId.StringLastIndexOf, "LastIndexOf", false, FuVar.New(StringPtrType, "value"));
+		StringClass.Add(FuProperty.New(NIntType, FuId.StringLength, "Length"));
+		StringClass.AddMethod(StringStorageType, FuId.StringReplace, "Replace", false, FuVar.New(StringPtrType, "oldValue"), FuVar.New(StringPtrType, "newValue"));
+		StringClass.AddMethod(BoolType, FuId.StringStartsWith, "StartsWith", false, FuVar.New(StringPtrType, "value"));
+		StringClass.AddMethod(StringStorageType, FuId.StringSubstring, "Substring", false, FuVar.New(NIntType, "offset"), FuVar.New(NIntType, "length", NewLiteralLong(-1)));
+		StringClass.AddMethod(StringStorageType, FuId.StringToLower, "ToLower", false);
+		StringClass.AddMethod(StringStorageType, FuId.StringToUpper, "ToUpper", false);
+		StringPtrType.Class = StringClass;
+		Add(StringPtrType);
+		StringNullablePtrType.Class = StringClass;
+		StringStorageType.Class = StringClass;
+		FuMethod# arrayBinarySearchPart = FuMethod.New(null, FuVisibility.NumericElementType, FuCallType.Normal, NIntType, FuId.ArrayBinarySearchPart, "BinarySearch", false,
+			FuVar.New(TypeParam0, "value"), FuVar.New(NIntType, "startIndex"), FuVar.New(NIntType, "count"));
+		ArrayPtrClass.Add(arrayBinarySearchPart);
+		ArrayPtrClass.AddMethod(VoidType, FuId.ArrayCopyTo, "CopyTo", false, FuVar.New(NIntType, "sourceIndex"),
+			FuVar.New(new FuReadWriteClassType { Class = ArrayPtrClass, TypeArg0 = TypeParam0 }, "destinationArray"), FuVar.New(NIntType, "destinationIndex"), FuVar.New(NIntType, "count"));
+		FuMethod# arrayFillPart = FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, VoidType, FuId.ArrayFillPart, "Fill", true,
+			FuVar.New(TypeParam0, "value"), FuVar.New(NIntType, "startIndex"), FuVar.New(NIntType, "count"));
+		ArrayPtrClass.Add(arrayFillPart);
+		FuMethod# arraySortPart = FuMethod.New(null, FuVisibility.NumericElementType, FuCallType.Normal, VoidType, FuId.ArraySortPart, "Sort", true, FuVar.New(NIntType, "startIndex"), FuVar.New(NIntType, "count"));
+		ArrayPtrClass.Add(arraySortPart);
+		ArrayStorageClass.Parent = ArrayPtrClass;
+		ArrayStorageClass.Add(FuMethodGroup.New(FuMethod.New(ArrayStorageClass, FuVisibility.NumericElementType, FuCallType.Normal, NIntType, FuId.ArrayBinarySearchAll, "BinarySearch", false, FuVar.New(TypeParam0, "value")),
+			arrayBinarySearchPart));
+		ArrayStorageClass.AddMethod(BoolType, FuId.ArrayContains, "Contains", false, FuVar.New(TypeParam0, "value"));
+		ArrayStorageClass.Add(FuMethodGroup.New(FuMethod.New(ArrayStorageClass, FuVisibility.Public, FuCallType.Normal, VoidType, FuId.ArrayFillAll, "Fill", true, FuVar.New(TypeParam0, "value")),
+			arrayFillPart));
+		ArrayStorageClass.Add(FuProperty.New(NIntType, FuId.ArrayLength, "Length"));
+		ArrayStorageClass.Add(FuMethodGroup.New(
+			FuMethod.New(ArrayStorageClass, FuVisibility.NumericElementType, FuCallType.Normal, VoidType, FuId.ArraySortAll, "Sort", true),
+			arraySortPart));
+		FuClass# exceptionClass = FuClass.New(FuCallType.Normal, FuId.ExceptionClass, "Exception");
+		exceptionClass.IsPublic = true;
+		Add(exceptionClass);
+
+		FuType# typeParam0NotFinal = new FuType { Id = FuId.TypeParam0NotFinal, Name = "T" };
+		FuType# typeParam0Predicate = new FuType { Id = FuId.TypeParam0Predicate, Name = "Predicate<T>" };
+		FuClass! listClass = AddCollection(FuId.ListClass, "List", 1, FuId.ListClear, FuId.ListCount);
+		listClass.AddMethod(VoidType, FuId.ListAdd, "Add", true, FuVar.New(typeParam0NotFinal, "value"));
+		listClass.AddMethod(VoidType, FuId.ListAddRange, "AddRange", true, FuVar.New(new FuClassType { Class = listClass, TypeArg0 = TypeParam0 }, "source"));
+		listClass.AddMethod(BoolType, FuId.ListAll, "All", false, FuVar.New(typeParam0Predicate, "predicate"));
+		listClass.AddMethod(BoolType, FuId.ListAny, "Any", false, FuVar.New(typeParam0Predicate, "predicate"));
+		listClass.AddMethod(BoolType, FuId.ListContains, "Contains", false, FuVar.New(TypeParam0, "value"));
+		listClass.AddMethod(VoidType, FuId.ListCopyTo, "CopyTo", false, FuVar.New(NIntType, "sourceIndex"),
+			FuVar.New(new FuReadWriteClassType { Class = ArrayPtrClass, TypeArg0 = TypeParam0 }, "destinationArray"), FuVar.New(NIntType, "destinationIndex"), FuVar.New(NIntType, "count"));
+		listClass.AddMethod(NIntType, FuId.ListIndexOf, "IndexOf", false, FuVar.New(TypeParam0, "value"));
+		listClass.AddMethod(VoidType, FuId.ListInsert, "Insert", true, FuVar.New(NIntType, "index"), FuVar.New(typeParam0NotFinal, "value"));
+		listClass.AddMethod(TypeParam0, FuId.ListLast, "Last", false);
+		listClass.AddMethod(VoidType, FuId.ListRemoveAt, "RemoveAt", true, FuVar.New(NIntType, "index"));
+		listClass.AddMethod(VoidType, FuId.ListRemoveRange, "RemoveRange", true, FuVar.New(NIntType, "index"), FuVar.New(NIntType, "count"));
+		listClass.Add(FuMethodGroup.New(
+			FuMethod.New(listClass, FuVisibility.NumericElementType, FuCallType.Normal, VoidType, FuId.ListSortAll, "Sort", true),
+			FuMethod.New(listClass, FuVisibility.NumericElementType, FuCallType.Normal, VoidType, FuId.ListSortPart, "Sort", true, FuVar.New(NIntType, "startIndex"), FuVar.New(NIntType, "count"))));
+		FuClass! queueClass = AddCollection(FuId.QueueClass, "Queue", 1, FuId.QueueClear, FuId.QueueCount);
+		queueClass.AddMethod(TypeParam0, FuId.QueueDequeue, "Dequeue", true);
+		queueClass.AddMethod(VoidType, FuId.QueueEnqueue, "Enqueue", true, FuVar.New(TypeParam0, "value"));
+		queueClass.AddMethod(TypeParam0, FuId.QueuePeek, "Peek", false);
+		FuClass! stackClass = AddCollection(FuId.StackClass, "Stack", 1, FuId.StackClear, FuId.StackCount);
+		stackClass.AddMethod(TypeParam0, FuId.StackPeek, "Peek", false);
+		stackClass.AddMethod(VoidType, FuId.StackPush, "Push", true, FuVar.New(TypeParam0, "value"));
+		stackClass.AddMethod(TypeParam0, FuId.StackPop, "Pop", true);
+		FuClass! priorityQueueClass = AddCollection(FuId.PriorityQueueClass, "PriorityQueue", 1, FuId.PriorityQueueClear, FuId.PriorityQueueCount);
+		priorityQueueClass.AddMethod(TypeParam0, FuId.PriorityQueueDequeue, "Dequeue", true);
+		priorityQueueClass.AddMethod(VoidType, FuId.PriorityQueueEnqueue, "Enqueue", true, FuVar.New(TypeParam0, "value"));
+		priorityQueueClass.AddMethod(TypeParam0, FuId.PriorityQueuePeek, "Peek", false);
+		AddSet(FuId.HashSetClass, "HashSet", FuId.HashSetAdd, FuId.HashSetClear, FuId.HashSetContains, FuId.HashSetCount, FuId.HashSetRemove);
+		AddSet(FuId.SortedSetClass, "SortedSet", FuId.SortedSetAdd, FuId.SortedSetClear, FuId.SortedSetContains, FuId.SortedSetCount, FuId.SortedSetRemove);
+		FuClass dictionaryClass = AddDictionary(FuId.DictionaryClass, "Dictionary", FuId.DictionaryClear, FuId.DictionaryContainsKey, FuId.DictionaryCount, FuId.DictionaryRemove);
+		AddDictionary(FuId.SortedDictionaryClass, "SortedDictionary", FuId.SortedDictionaryClear, FuId.SortedDictionaryContainsKey, FuId.SortedDictionaryCount, FuId.SortedDictionaryRemove);
+		AddDictionary(FuId.OrderedDictionaryClass, "OrderedDictionary", FuId.OrderedDictionaryClear, FuId.OrderedDictionaryContainsKey, FuId.OrderedDictionaryCount, FuId.OrderedDictionaryRemove);
+
+		FuClass# textWriterClass = FuClass.New(FuCallType.Normal, FuId.TextWriterClass, "TextWriter");
+		textWriterClass.AddMethod(VoidType, FuId.TextWriterWrite, "Write", true, FuVar.New(PrintableType, "value"));
+		textWriterClass.AddMethod(VoidType, FuId.TextWriterWriteChar, "WriteChar", true, FuVar.New(IntType, "c"));
+		textWriterClass.AddMethod(VoidType, FuId.TextWriterWriteCodePoint, "WriteCodePoint", true, FuVar.New(IntType, "c"));
+		textWriterClass.AddMethod(VoidType, FuId.TextWriterWriteLine, "WriteLine", true, FuVar.New(PrintableType, "value", NewLiteralString("")));
+		Add(textWriterClass);
+		FuClass# consoleClass = FuClass.New(FuCallType.Static, FuId.None, "Console");
+		consoleClass.AddStaticMethod(VoidType, FuId.ConsoleWrite, "Write", FuVar.New(PrintableType, "value"));
+		consoleClass.AddStaticMethod(VoidType, FuId.ConsoleWriteLine, "WriteLine", FuVar.New(PrintableType, "value", NewLiteralString("")));
+		consoleClass.Add(FuStaticProperty.New(new FuStorageType { Class = textWriterClass }, FuId.ConsoleError, "Error"));
+		Add(consoleClass);
+		FuClass# stringWriterClass = FuClass.New(FuCallType.Sealed, FuId.StringWriterClass, "StringWriter");
+		stringWriterClass.AddMethod(VoidType, FuId.StringWriterClear, "Clear", true);
+		stringWriterClass.AddMethod(StringPtrType, FuId.StringWriterToString, "ToString", false);
+		Add(stringWriterClass);
+		stringWriterClass.Parent = textWriterClass;
+		FuClass# convertClass = FuClass.New(FuCallType.Static, FuId.None, "Convert");
+		convertClass.AddStaticMethod(StringStorageType, FuId.ConvertToBase64String, "ToBase64String",
+			FuVar.New(new FuClassType { Class = ArrayPtrClass, TypeArg0 = ByteType }, "bytes"), FuVar.New(NIntType, "offset"), FuVar.New(NIntType, "length"));
+		Add(convertClass);
+		FuClass# utf8EncodingClass = FuClass.New(FuCallType.Sealed, FuId.None, "UTF8Encoding");
+		utf8EncodingClass.AddMethod(NIntType, FuId.UTF8GetByteCount, "GetByteCount", false, FuVar.New(StringPtrType, "str"));
+		utf8EncodingClass.AddMethod(VoidType, FuId.UTF8GetBytes, "GetBytes", false,
+			FuVar.New(StringPtrType, "str"), FuVar.New(new FuReadWriteClassType { Class = ArrayPtrClass, TypeArg0 = ByteType }, "bytes"), FuVar.New(NIntType, "byteIndex"));
+		utf8EncodingClass.AddMethod(StringStorageType, FuId.UTF8GetString, "GetString", false,
+			FuVar.New(new FuClassType { Class = ArrayPtrClass, TypeArg0 = ByteType }, "bytes"), FuVar.New(NIntType, "offset"), FuVar.New(NIntType, "length"));
+		FuClass# encodingClass = FuClass.New(FuCallType.Static, FuId.None, "Encoding");
+		encodingClass.Add(FuStaticProperty.New(utf8EncodingClass, FuId.None, "UTF8"));
+		Add(encodingClass);
+		FuClass# environmentClass = FuClass.New(FuCallType.Static, FuId.None, "Environment");
+		environmentClass.AddStaticMethod(StringNullablePtrType, FuId.EnvironmentGetEnvironmentVariable, "GetEnvironmentVariable", FuVar.New(StringPtrType, "name"));
+		Add(environmentClass);
+		RegexOptionsEnum = NewEnum(true);
+		RegexOptionsEnum.IsPublic = true;
+		RegexOptionsEnum.Id = FuId.RegexOptionsEnum;
+		RegexOptionsEnum.Name = "RegexOptions";
+		FuConst# regexOptionsNone = NewConstLong("None", 0);
+		AddEnumValue(RegexOptionsEnum, regexOptionsNone);
+		AddEnumValue(RegexOptionsEnum, NewConstLong("IgnoreCase", 1));
+		AddEnumValue(RegexOptionsEnum, NewConstLong("Multiline", 2));
+		AddEnumValue(RegexOptionsEnum, NewConstLong("Singleline", 16));
+		Add(RegexOptionsEnum);
+		FuClass# regexClass = FuClass.New(FuCallType.Sealed, FuId.RegexClass, "Regex");
+		regexClass.AddStaticMethod(StringStorageType, FuId.RegexEscape, "Escape", FuVar.New(StringPtrType, "str"));
+		regexClass.Add(FuMethodGroup.New(
+			FuMethod.New(null, FuVisibility.Public, FuCallType.Static, BoolType, FuId.RegexIsMatchStr, "IsMatch", false, FuVar.New(StringPtrType, "input"), FuVar.New(StringPtrType, "pattern"), FuVar.New(RegexOptionsEnum, "options", regexOptionsNone)),
+			FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.RegexIsMatchRegex, "IsMatch", false, FuVar.New(StringPtrType, "input"))));
+		regexClass.AddStaticMethod(new FuDynamicPtrType { Class = regexClass }, FuId.RegexCompile, "Compile", FuVar.New(StringPtrType, "pattern"), FuVar.New(RegexOptionsEnum, "options", regexOptionsNone));
+		Add(regexClass);
+		FuClass# matchClass = FuClass.New(FuCallType.Sealed, FuId.MatchClass, "Match");
+		matchClass.Add(FuMethodGroup.New(
+			FuMethod.New(matchClass, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.MatchFindStr, "Find", true, FuVar.New(StringPtrType, "input"), FuVar.New(StringPtrType, "pattern"), FuVar.New(RegexOptionsEnum, "options", regexOptionsNone)),
+			FuMethod.New(matchClass, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.MatchFindRegex, "Find", true, FuVar.New(StringPtrType, "input"), FuVar.New(new FuClassType { Class = regexClass }, "pattern"))));
+		matchClass.Add(FuProperty.New(NIntType, FuId.MatchStart, "Start"));
+		matchClass.Add(FuProperty.New(NIntType, FuId.MatchEnd, "End"));
+		matchClass.AddMethod(StringStorageType, FuId.MatchGetCapture, "GetCapture", false, FuVar.New(UIntType, "group"));
+		matchClass.Add(FuProperty.New(NIntType, FuId.MatchLength, "Length"));
+		matchClass.Add(FuProperty.New(StringStorageType, FuId.MatchValue, "Value"));
+		Add(matchClass);
+		FuClass# jsonElementClass = FuClass.New(FuCallType.Sealed, FuId.JsonElementClass, "JsonElement");
+		FuDynamicPtrType# jsonElementPtr = new FuDynamicPtrType { Class = jsonElementClass };
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Static, jsonElementPtr, FuId.JsonElementParse, "Parse", false, FuVar.New(StringPtrType, "value")));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementIsObject, "IsObject", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementIsArray, "IsArray", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementIsString, "IsString", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementIsNumber, "IsNumber", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementIsBoolean, "IsBoolean", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementIsNull, "IsNull", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, new FuClassType { Class = dictionaryClass, TypeArg0 = StringStorageType, TypeArg1 = jsonElementPtr }, FuId.JsonElementGetObject, "GetObject", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, new FuClassType { Class = listClass, TypeArg0 = jsonElementPtr }, FuId.JsonElementGetArray, "GetArray", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, StringPtrType, FuId.JsonElementGetString, "GetString", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, DoubleType, FuId.JsonElementGetDouble, "GetDouble", false));
+		jsonElementClass.Add(FuMethod.New(null, FuVisibility.Public, FuCallType.Normal, BoolType, FuId.JsonElementGetBoolean, "GetBoolean", false));
+		Add(jsonElementClass);
+
+		FuNumericType# numericType = new FuNumericType { Id = FuId.NumericType, Name = "numeric" };
+		FuFloatingType# floatingType = new FuFloatingType { Id = FuId.FloatingType, Name = "float" };
+		FuFloatingType# floatIntType = new FuFloatingType { Id = FuId.FloatIntType, Name = "float" };
+		FuClass# mathClass = FuClass.New(FuCallType.Static, FuId.None, "Math");
+		mathClass.AddStaticMethod(numericType, FuId.MathAbs, "Abs", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Acos", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Asin", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Atan", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Atan2", FuVar.New(DoubleType, "y"), FuVar.New(DoubleType, "x"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Cbrt", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatIntType, FuId.MathCeiling, "Ceiling", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(numericType, FuId.MathClamp, "Clamp", FuVar.New(DoubleType, "value"), FuVar.New(DoubleType, "min"), FuVar.New(DoubleType, "max"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Cos", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Cosh", FuVar.New(DoubleType, "a"));
+		mathClass.Add(NewConstDouble("E", Math.E));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Exp", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatIntType, FuId.MathMethod, "Floor", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathFusedMultiplyAdd, "FusedMultiplyAdd", FuVar.New(DoubleType, "x"), FuVar.New(DoubleType, "y"), FuVar.New(DoubleType, "z"));
+		mathClass.AddStaticMethod(BoolType, FuId.MathIsFinite, "IsFinite", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(BoolType, FuId.MathIsInfinity, "IsInfinity", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(BoolType, FuId.MathIsNaN, "IsNaN", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Log", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathLog2, "Log2", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Log10", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(numericType, FuId.MathMax, "Max", FuVar.New(DoubleType, "a"), FuVar.New(DoubleType, "b"));
+		mathClass.AddStaticMethod(numericType, FuId.MathMin, "Min", FuVar.New(DoubleType, "a"), FuVar.New(DoubleType, "b"));
+		mathClass.Add(FuStaticProperty.New(FloatType, FuId.MathNaN, "NaN"));
+		mathClass.Add(FuStaticProperty.New(FloatType, FuId.MathNegativeInfinity, "NegativeInfinity"));
+		mathClass.Add(NewConstDouble("PI", Math.PI));
+		mathClass.Add(FuStaticProperty.New(FloatType, FuId.MathPositiveInfinity, "PositiveInfinity"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Pow", FuVar.New(DoubleType, "x"), FuVar.New(DoubleType, "y"));
+		mathClass.AddStaticMethod(floatIntType, FuId.MathRound, "Round", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Sin", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Sinh", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Sqrt", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Tan", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatingType, FuId.MathMethod, "Tanh", FuVar.New(DoubleType, "a"));
+		mathClass.AddStaticMethod(floatIntType, FuId.MathTruncate, "Truncate", FuVar.New(DoubleType, "a"));
+		Add(mathClass);
+
+		FuClass# lockClass = FuClass.New(FuCallType.Sealed, FuId.LockClass, "Lock");
+		Add(lockClass);
+		LockPtrType.Class = lockClass;
+	}
+
+	internal static FuSystem# New() => new FuSystem();
+}
+
+class FuSourceFile
+{
+	internal string() Filename;
+	internal int Line;
+}
+
+public class FuProgram : FuScope
+{
+	internal FuSystem System;
+	internal List<string()>() TopLevelNatives;
+	internal List<FuClass!>() Classes;
+	internal FuMethod? Main = null;
+	internal SortedDictionary<string(), List<byte>()>() Resources;
+	internal bool RegexOptionsEnum = false;
+	internal List<int>() LineLocs;
+	internal List<FuSourceFile()>() SourceFiles;
+
+	internal int GetLine(int loc)
+	{
+		int l = 0;
+		int r = this.LineLocs.Count - 1;
+		while (l < r) {
+			int m = l + r + 1 >> 1;
+			if (loc < this.LineLocs[m])
+				r = m - 1;
+			else
+				l = m;
+		}
+		return l;
+	}
+
+	internal FuSourceFile GetSourceFile(int line)
+	{
+		int l = 0;
+		int r = this.SourceFiles.Count - 1;
+		while (l < r) {
+			int m = l + r + 1 >> 1;
+			if (line < this.SourceFiles[m].Line)
+				r = m - 1;
+			else
+				l = m;
+		}
+		return this.SourceFiles[l];
+	}
+}

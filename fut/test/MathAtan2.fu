@@ -1,0 +1,12 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		double y = 0; //FAIL: cl if no double support
+		double x = 1;
+		float f = 0;
+		float g = 1;
+		f = Math.Atan2(f, g);
+		return Math.Atan2(y, x) == 0 && f == 0;
+	}
+}

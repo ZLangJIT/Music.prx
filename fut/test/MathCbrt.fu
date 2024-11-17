@@ -1,0 +1,10 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		double a = 8; //FAIL: cl if no double support
+		float f = 8;
+		f = Math.Cbrt(f);
+		return Math.Cbrt(a) == 2 && f == 2; //FAIL: py 3.11
+	}
+}

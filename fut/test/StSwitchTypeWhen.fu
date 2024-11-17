@@ -1,0 +1,46 @@
+abstract class Animal
+{
+	internal string? Name;
+	internal virtual void MakeSound()
+	{
+	}
+}
+
+class Cat : Animal
+{
+}
+
+class Lion : Cat
+{
+}
+
+class Dog : Animal
+{
+}
+
+class Cow : Animal
+{
+}
+
+public static class Test
+{
+	static bool IsCat(Animal a)
+	{
+		switch (a) { //FAIL: c cl
+		case Cow: //FAIL: java 21 --enable-preview
+		case Dog:
+			return false;
+		case Cat c when c.Name == "Simba":
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public static bool Run()
+	{
+		Lion() l;
+		l.Name = "Simba";
+		return IsCat(l);
+	}
+}

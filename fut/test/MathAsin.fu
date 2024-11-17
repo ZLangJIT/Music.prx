@@ -1,0 +1,10 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		double a = 0; //FAIL: cl if no double support
+		float f = 0;
+		f = Math.Asin(f);
+		return Math.Asin(a) == 0 && f == 0;
+	}
+}

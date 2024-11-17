@@ -1,0 +1,58 @@
+public class Test
+{
+#if C || CL
+	native {
+		bool ok;
+	}
+	native {
+		int bar;
+	}
+#elif JAVA
+	native {
+		boolean ok = true;
+	}
+#elif JS || TS
+	native {
+		ok = true;
+	}
+#elif PY
+	native {
+	ok = True
+	}
+#elif SWIFT
+	native {
+		var ok = true
+	}
+#else
+	native {
+		bool ok = true;
+	}
+#endif
+
+	public static bool Run()
+	{
+		Test() o;
+		bool result;
+		result = false;
+#if C || CL
+		native {
+			o.ok = true;
+		}
+#endif
+		native {
+		result = o.ok;
+		}
+#if CPP
+		native {
+			result &= o.trailing;
+		}
+#endif
+		return result;
+	}
+
+#if CPP
+	native {
+		bool trailing = true;
+	}
+#endif
+}

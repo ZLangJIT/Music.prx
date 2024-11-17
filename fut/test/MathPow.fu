@@ -1,0 +1,12 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		double x = 2; //FAIL: cl if no double support
+		double y = 3;
+		float f = 2;
+		float g = 3;
+		f = Math.Pow(f, g);
+		return Math.Pow(x, y) == 8 && f == 8;
+	}
+}

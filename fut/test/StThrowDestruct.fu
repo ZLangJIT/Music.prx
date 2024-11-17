@@ -1,0 +1,19 @@
+public class Test
+{
+	static uint UintThrow() throws Exception
+	{
+		throw Exception("Foo");
+	}
+
+	public static string() Outer() throws Exception
+	{
+		string() s = "bar"; //FAIL: cl
+		UintThrow();
+		return s;
+	}
+
+	public static bool Run()
+	{
+		return true;
+	}
+}

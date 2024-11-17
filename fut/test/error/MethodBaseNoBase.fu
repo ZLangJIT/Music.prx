@@ -1,0 +1,6 @@
+public class Test
+{
+	bool Foo() => base.Bar(); //ERROR: No base class
+
+	public static bool Run() => true;
+}

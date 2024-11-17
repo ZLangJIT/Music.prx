@@ -1,0 +1,10 @@
+public class Base
+{
+}
+
+public class Test : Base
+{
+	bool Foo() => base.Bar(); //ERROR: 'Bar' not found
+
+	public static bool Run() => true;
+}

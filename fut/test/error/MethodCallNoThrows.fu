@@ -1,0 +1,17 @@
+public static class Test
+{
+	static void Foo()
+	{
+		Bar(); //ERROR: Method marked 'throws Exception' called from a method without it
+	}
+
+	static void Bar() throws Exception
+	{
+		throw Exception("bar");
+	}
+
+	public static bool Run()
+	{
+		return true;
+	}
+}

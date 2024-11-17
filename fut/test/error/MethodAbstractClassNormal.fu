@@ -1,0 +1,6 @@
+public class Test
+{
+	protected
+		abstract //ERROR: Abstract methods allowed only in an abstract class
+		bool Run();
+}

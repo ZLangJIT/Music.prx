@@ -1,0 +1,23 @@
+public static class Runner
+{
+	public static int Main()
+	{
+#if CS
+		native {
+			System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+		}
+#elif JAVA
+		native {
+			java.util.Locale.setDefault(java.util.Locale.ROOT);
+		}
+#endif
+		if (Test.Run()) {
+			Console.WriteLine("PASSED");
+			return 0;
+		}
+		else {
+			Console.WriteLine("FAILED");
+			return 1;
+		}
+	}
+}

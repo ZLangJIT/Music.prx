@@ -1,0 +1,16 @@
+public static class Test
+{
+	static void Foo(string s)
+	{
+	}
+
+	static string ReturnMismatch() => null; //ERROR: Cannot convert 'null' to 'string'
+
+	public static bool Run()
+	{
+		string() s = null; //ERROR: Cannot convert 'null' to 'string()'
+		string p = null; //ERROR: Cannot convert 'null' to 'string'
+		Foo(null); //ERROR: Cannot convert 'null' to 'string'
+		return true;
+	}
+}

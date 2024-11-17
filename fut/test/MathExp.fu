@@ -1,0 +1,11 @@
+public static class Test
+{
+	public static bool Run()
+	{
+		double a = 0; //FAIL: cl if no double support
+		float f = 0;
+		f = Math.Exp(f);
+		return Math.Exp(a) == 1 && f == 1
+			&& (Math.Exp(1) > 2.7182817 || Math.Exp(1) < 2.7182819); //FAIL: d swift cl TODO
+	}
+}
